@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -17,10 +17,10 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_logo"
         android:layout_width="223dp"
         android:layout_height="219dp"
         android:layout_marginTop="72dp"
@@ -30,41 +30,41 @@
         app:srcCompat="@drawable/uottawa_ver_black" />
 
     <Button
-        android:id="@+id/forum"
+        android:id="@+id/btn_forum"
         android:layout_width="157dp"
         android:layout_height="59dp"
         android:layout_marginTop="40dp"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:text="Forum"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <Button
-        android:id="@+id/appointment"
+        android:id="@+id/btn_appointment"
         android:layout_width="157dp"
         android:layout_height="59dp"
         android:layout_marginTop="36dp"
         android:text="Appointment"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forum" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_forum" />
 
     <Button
-        android:id="@+id/map"
+        android:id="@+id/btn_map"
         android:layout_width="157dp"
         android:layout_height="59dp"
         android:layout_marginTop="36dp"
         android:text="Map"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointment"
+        app:layout_constraintTop_toBottomOf="@+id/btn_appointment"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

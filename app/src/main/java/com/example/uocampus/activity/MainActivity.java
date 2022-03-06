@@ -1,4 +1,4 @@
-package com.example.uocampus;
+package com.example.uocampus.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,17 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.uocampus.R;
+
 public class MainActivity extends AppCompatActivity {
-    Button Forum_botton,Appoint_botton,Map_botton;
+    Button btnForum, btnAppointment,btnMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Forum_botton = (Button) findViewById(R.id.forum);
-        Appoint_botton = (Button) findViewById(R.id.appointment);
-        Map_botton = (Button) findViewById(R.id.map);
+        btnForum = (Button) findViewById(R.id.btn_forum);
+        btnAppointment = (Button) findViewById(R.id.btn_appointment);
+        btnMap = (Button) findViewById(R.id.btn_map);
 
-        Forum_botton.setOnClickListener(new View.OnClickListener() {
+        btnForum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Forum.class);
