@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/Android_Application/UOCampus/app/src/main/res/drawable/btnshape.xml" value="0.127" />
         <entry key="..\:/Android_Application/UOCampus/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="app/src/main/res/layout/activity_forum.xml" value="0.372210953346856" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/forum.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/item.xml" value="0.185699722878106" />
       </map>
     </option>
   </component>
