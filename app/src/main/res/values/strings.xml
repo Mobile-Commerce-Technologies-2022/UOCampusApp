@@ -3,4 +3,6 @@
     <string name="avatar">avatar</string>
     <string name="_06_03_2022">06-03-2022</string>
     <string name="Student_ID_here" />
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

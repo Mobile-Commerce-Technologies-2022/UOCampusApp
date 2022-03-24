@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.uocampus.Forum;
 import com.example.uocampus.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Forum.class);
+                startActivity(intent);
+            }
+        });
+
+        btnAppointment.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Appointment.class);
                 startActivity(intent);
             }
         });
