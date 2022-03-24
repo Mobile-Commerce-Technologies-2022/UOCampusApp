@@ -17,12 +17,13 @@ public class Appointment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
 
-//        queue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openDialog();
-//            }
-//        });
+          queue = findViewById(R.id.queue);
+        queue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
     }
 
     private void openDialog() {
