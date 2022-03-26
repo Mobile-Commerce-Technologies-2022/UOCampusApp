@@ -5,17 +5,15 @@ public class Userinformation {
     public String name;
     public int phonenumer;
     public int studentnumber;
-    public boolean priority = false;
 
     public Userinformation(){
 
     }
 
-    public Userinformation(String name, int phonenumer, int studentnumber, boolean priority) {
+    public Userinformation(String name, int phonenumer, int studentnumber) {
         this.name = name;
         this.phonenumer = phonenumer;
         this.studentnumber = studentnumber;
-        this.priority = priority;
     }
 
     public String getName() {
@@ -42,12 +40,6 @@ public class Userinformation {
         this.studentnumber = studentnumber;
     }
 
-    public boolean isPriority() {
-        return priority;
-    }
 
-    public void setPriority(boolean priority) {
-        this.priority = priority;
-    }
 
 }

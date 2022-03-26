@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.uocampus.Forum;
 import com.example.uocampus.R;
+import com.example.uocampus.activity.Q_view.Q_Appointment;
 
 public class MainActivity extends AppCompatActivity {
     Button btnForum, btnAppointment,btnMap;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Appointment.class);
+                Intent intent = new Intent(MainActivity.this, Q_Appointment.class);
                 startActivity(intent);
             }
         });
