@@ -10,8 +10,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_quserlist.xml" value="0.23385416666666667" />
         <entry key="app/src/main/res/layout/forum.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/fragment_q__cancel_queue.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.1505218505859375" />
         <entry key="app/src/main/res/layout/item.xml" value="0.185699722878106" />
+        <entry key="app/src/main/res/layout/userentry.xml" value="0.1" />
       </map>
     </option>
   </component>

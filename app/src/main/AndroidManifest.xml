@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UOCampus">
         <activity
-            android:name=".activity.Q_view.Q_Userlist"
+            android:name=".model.Q_view.Q_Userlist"
             android:exported="false" />
         <activity
-            android:name=".activity.Q_view.Q_Appointment"
+            android:name=".activity.Q_Appointment"
             android:exported="false" />
         <activity
             android:name=".activity.Forum"

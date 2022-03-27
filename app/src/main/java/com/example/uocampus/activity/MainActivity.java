@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import com.example.uocampus.Forum;
 import com.example.uocampus.R;
-import com.example.uocampus.activity.Q_view.Q_Appointment;
 
 public class MainActivity extends AppCompatActivity {
     Button btnForum, btnAppointment,btnMap;
