@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uocampus.R;
@@ -19,6 +20,7 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
     private static final String TAG = "" ;
     private Button queue,cancelbtn,viewbtn;
     DBHelper DB;
+    private TextView time, line;
 
 
     @Override
@@ -29,6 +31,9 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
           queue = findViewById(R.id.queue);
         viewbtn = findViewById(R.id.view);
         cancelbtn = findViewById(R.id.cancelQ);
+        time = findViewById(R.id.wait_text);
+        line = findViewById(R.id.line_text);
+        updatestatus();
 
         viewbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +72,7 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
     public void applyTexts(String name, String phone, String sid) {
         if(name!=null&phone!=null&sid!=null) {
             Boolean checkinsertdata = DB.insertuserdata(name, phone, sid);
+            Log.d(TAG, String.valueOf(DB.getProfilesCount()));
             if (checkinsertdata == true) {
                 Toast.makeText(Q_Appointment.this,"You are in Queue",Toast.LENGTH_SHORT).show();
                 Log.d(TAG, " get data");
@@ -76,6 +82,7 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
 
             }
         }
+        updatestatus();
     }
 
     @Override
@@ -89,5 +96,11 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
             Toast.makeText(Q_Appointment.this,"Queue not deleted",Toast.LENGTH_SHORT).show();
 
         }
+        updatestatus();
+    }
+
+    public void updatestatus(){
+        line.setText((DB.getProfilesCount()).toString());
+        time.setText((DB.getapproxtime()).toString() + " mins");
     }
 }

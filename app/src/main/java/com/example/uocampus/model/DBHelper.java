@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
         super(context, "Userdata.db", null, 1);
@@ -61,5 +59,24 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Integer getProfilesCount() {
+        String countQuery = "SELECT  * FROM Userdetails";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public Integer getapproxtime(){
+       Integer numcount = getProfilesCount();
+       if (numcount ==0){
+           return 1;
+       }else if (numcount >0 || 3 <= numcount){
+           return 10;
+       }else{
+           return 20;
+        }
+    }
 
 }
