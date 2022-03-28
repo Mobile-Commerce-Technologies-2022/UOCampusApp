@@ -113,6 +113,7 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
         line.setText((DB.getProfilesCount()).toString());
         time.setText((DB.getapproxtime()).toString() + " mins");
 
+        //context awareness by chaning color
         if (DB.getProfilesCount() > 3){
             relative.setBackgroundColor(R.color.grey);
         }else if(DB.getProfilesCount() > 5){
