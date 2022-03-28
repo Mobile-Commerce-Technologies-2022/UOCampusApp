@@ -1,4 +1,4 @@
-package com.example.uocampus.model.Q_view;
+package com.example.uocampus.model.Appointment_Model;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

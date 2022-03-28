@@ -70,13 +70,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Integer getapproxtime(){
        Integer numcount = getProfilesCount();
-       if (numcount ==0){
+       if (numcount >=0 || numcount <=1){
            return 1;
-       }else if (numcount >0 || 3 <= numcount){
+       }else if (numcount >1 ||numcount <=3){
            return 10;
        }else{
            return 20;
         }
     }
+
+    public Boolean checkStatus(){
+        Integer numcount = getProfilesCount();
+        if(numcount ==0) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
 }

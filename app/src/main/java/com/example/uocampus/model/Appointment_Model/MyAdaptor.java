@@ -1,4 +1,4 @@
-package com.example.uocampus.model.Q_view;
+package com.example.uocampus.model.Appointment_Model;
 
 import android.content.Context;
 import android.view.LayoutInflater;
