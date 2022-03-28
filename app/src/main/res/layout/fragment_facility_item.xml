@@ -1,0 +1,34 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp">
+
+
+    <TextView
+        android:id="@+id/tv_facility_item"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Facility Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_estimate_time"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:text="Estimate Time"
+        app:layout_constraintStart_toEndOf="@+id/tv_direct_distance"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_direct_distance"
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:text="Direct Distance"
+        app:layout_constraintStart_toEndOf="@+id/tv_facility_item"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
