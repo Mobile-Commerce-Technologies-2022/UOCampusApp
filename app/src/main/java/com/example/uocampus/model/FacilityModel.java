@@ -1,18 +1,19 @@
 package com.example.uocampus.model;
+import com.google.android.gms.maps.model.LatLng;
 
 public class FacilityModel {
     private final String NAME;
     private double directDistance;
     private long estimateTime;
+    private final LatLng latLng;
 
-    public FacilityModel(String NAME, double directDistance, long estimateTime) {
-        this.NAME = NAME;
-        this.directDistance = directDistance;
-        this.estimateTime = estimateTime;
+    public LatLng getLatLng() {
+        return latLng;
     }
 
-    public FacilityModel(String NAME) {
+    public FacilityModel(String NAME, LatLng latLng) {
         this.NAME = NAME;
+        this.latLng = latLng;
     }
 
     public String getNAME() {

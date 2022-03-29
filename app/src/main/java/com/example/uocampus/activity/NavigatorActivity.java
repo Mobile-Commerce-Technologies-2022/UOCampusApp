@@ -2,6 +2,8 @@ package com.example.uocampus.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +19,6 @@ import com.example.uocampus.R;
 import com.example.uocampus.adapter.FacilityViewAdapter;
 import com.example.uocampus.model.FacilityModel;
 import com.example.uocampus.singleton.UtilLoader;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -25,8 +26,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class NavigatorActivity extends AppCompatActivity implements LocationListener,
                                                                     OnMapReadyCallback{
@@ -55,6 +61,8 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(NavigatorActivity.this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+        loadFacility();
+
         // Google Map Initialization
         UtilLoader.getInstance().requestPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
         loadLocationTracker();
@@ -62,8 +70,6 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this::onMapReady);
-
-        loadFacility();
     }
 
 
@@ -77,6 +83,12 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         userMarker = mMap.addMarker(new MarkerOptions()
                 .position(sydney)
                 .title("Your Location"));
+
+        for(FacilityModel facilityModel : mFacilityList) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(facilityModel.getLatLng())
+                    .title(facilityModel.getNAME()));
+        }
         Log.d(TAG, "onMapReady");
     }
 
@@ -110,9 +122,61 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     }
 
     public void loadFacility() {
-        for(int i = 0; i < 5; i++) {
-            FacilityModel model = new FacilityModel("Facility " + i);
+        String[] tempFacility = new String[] {
+                "1 Nicholas StOttawa, ON K1N 7B7",
+                "100 Laurier Ave. EOttawa, ON K1N 6N7",
+                "100 Marie-Curie PrivateOttawa, ON K1N 9N3",
+                "90 University PrivateOttawa, ON K1N 6N5"
+        };
+        for (String s : tempFacility) {
+            LatLng latLng = getLocationFromAddress(s);
+            FacilityModel model = new FacilityModel(s, latLng);
             mFacilityList.add(model);
+            assert latLng != null;
+            Log.d(TAG, latLng.toString());
+        }
+    }
+
+    private LatLng getLocationFromAddress(String strAddress) {
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        LatLng p1 = null;
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return p1;
+    }
+
+    private String getDirectionUrl(LatLng origin, LatLng dest) {
+        return String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s" +
+                "&destination=%s,%s&key=%s",
+                origin.latitude, origin.longitude,
+                dest.latitude, dest.longitude,
+                UtilLoader.getInstance().getGoogleAPIKey());
+    }
+
+    // TODO: invoke this function when user click one of the facilities
+    private void drawDirection(LatLng origin, LatLng dest) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(getDirectionUrl(origin, dest))
+                .method("GET", null)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -62,4 +62,9 @@ public class UtilLoader {
             Log.i(context.getClass().getSimpleName(), String.format("%s is granted", permission));
         }
     }
+
+    //TODO: the key would be invalidated at the end of the project
+    public String getGoogleAPIKey() {
+        return "AIzaSyCduND9uK7D0MLbyNKzqjJe50wR53nWvcE";
+    }
 }

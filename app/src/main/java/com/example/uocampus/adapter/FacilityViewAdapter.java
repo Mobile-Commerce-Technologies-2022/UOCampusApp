@@ -34,7 +34,7 @@ public class FacilityViewAdapter extends RecyclerView.Adapter<FacilityViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull FacilityViewHolder holder, int position) {
-        holder.tvFacility.setText(facilityModelList.get(position).toString());
+        holder.tvFacility.setText(facilityModelList.get(position).getNAME());
     }
 
     @Override
