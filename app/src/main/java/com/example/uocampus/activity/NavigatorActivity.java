@@ -9,8 +9,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,7 @@ import com.example.uocampus.R;
 import com.example.uocampus.adapter.FacilityViewAdapter;
 import com.example.uocampus.model.FacilityModel;
 import com.example.uocampus.singleton.UtilLoader;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -28,22 +31,27 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class NavigatorActivity extends AppCompatActivity implements LocationListener,
-                                                                    OnMapReadyCallback{
+                                                                    OnMapReadyCallback,
+                                                                    FacilityViewAdapter.OnFacilityListener{
     private static final String TAG = NavigatorActivity.class.getSimpleName();
     private GoogleMap mMap;
     protected LocationManager locationManager;
     private final int TIME_INTERVAL = 2500;
     private final int MIN_DISTANCE_M = 0;
     private static final int DEFAULT_ZOOM = 15;
-    private Location loc;
-    private Marker userMarker;
+    private Location userLocation;
+    private Marker userLocationMarker;
+    private Map<FacilityModel,Marker> facilityModelMarkerMap;
 
     RecyclerView mRecyclerView;
     FacilityViewAdapter facilityViewAdapter;
@@ -54,8 +62,11 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitiy_navigator);
+        facilityModelMarkerMap = new HashMap<>();
         // Facility Initialization
-        facilityViewAdapter = new FacilityViewAdapter(NavigatorActivity.this, mFacilityList);
+        facilityViewAdapter = new FacilityViewAdapter(NavigatorActivity.this,
+                                                             mFacilityList,
+                                                             this::onFacilityClick);
         mRecyclerView = findViewById(R.id.rv_facility);
         mRecyclerView.setAdapter(facilityViewAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(NavigatorActivity.this);
@@ -78,27 +89,19 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        userMarker = mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Your Location"));
-
-        for(FacilityModel facilityModel : mFacilityList) {
-            mMap.addMarker(new MarkerOptions()
-                    .position(facilityModel.getLatLng())
-                    .title(facilityModel.getNAME()));
-        }
+        // default location: University of Ottawa
+        LatLng defaultLocation = new LatLng(45.424721,  -75.695000);
+        addMarker(defaultLocation);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
         Log.d(TAG, "onMapReady");
     }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        this.loc = location;
+        userLocation = location;
         if(mMap != null) {
-            userMarker.remove();
-            LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-            userMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
+            removeMarker(userLocationMarker);
+            addMarker(userLocation);
             mMap.setMinZoomPreference(DEFAULT_ZOOM);
         }
         Log.d(TAG, location.toString());
@@ -137,6 +140,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         }
     }
 
+    @Nullable
     private LatLng getLocationFromAddress(String strAddress) {
         Geocoder coder = new Geocoder(this);
         List<Address> address;
@@ -156,6 +160,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         return p1;
     }
 
+    @NonNull
     private String getDirectionUrl(LatLng origin, LatLng dest) {
         return String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s" +
                 "&destination=%s,%s&key=%s",
@@ -174,9 +179,66 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 .build();
         try {
             Response response = client.newCall(request).execute();
-
+            Toast.makeText(this, "It Works", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Add a marker to mMap.
+     * If object is an instance of LatLng/Location, assigns location of the user.
+     * If object is an instance of FacilityModel, stores location of the facility
+     * @param object an instance of LatLng/ Location/ FacilityModel
+     */
+    private void addMarker(Object object) {
+        if(object instanceof LatLng) {
+            userLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position((LatLng) object)
+                    .title("Your Location"));
+        } else if(object instanceof Location) {
+            userLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(((Location) object).getLatitude(),
+                                        ((Location) object).getLongitude()))
+                    .title("Your Location"));
+        } else if(object instanceof FacilityModel) {
+            Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(((FacilityModel) object).getLatLng())
+                    .title(((FacilityModel) object).getNAME()));
+            facilityModelMarkerMap.put((FacilityModel) object, m);
+        } else {
+            throw new IllegalArgumentException("Incorrect Object Type: " +
+                    object.getClass().getSimpleName());
+        }
+    }
+
+    /**
+     * Remove a marker to mMap.
+     * If object is an instance of Marker, removes location of the user.
+     * If object is an instance of FacilityModel, removes location of the facility
+     * @param object an instance of Marker/ FacilityModel
+     */
+    private void removeMarker(Object object) {
+        if(object instanceof Marker) {
+            ((Marker) object).remove();
+        } else if(object instanceof FacilityModel){
+            Objects.requireNonNull(facilityModelMarkerMap.get(object)).remove();
+            facilityModelMarkerMap.remove(object);
+        } else {
+            throw new IllegalArgumentException("Incorrect Object Type: " +
+                    object.getClass().getSimpleName());
+        }
+    }
+
+
+    @Override
+    public void onFacilityClick(int position) {
+//        drawDirection(userLocationMarker.getPosition(), mFacilityList.get(position).getLatLng());
+        FacilityModel facilityModel = mFacilityList.get(position);
+        if(facilityModelMarkerMap.get(facilityModel) != null) {
+            removeMarker(facilityModel);
+        } else {
+            addMarker(facilityModel);
         }
     }
 }
