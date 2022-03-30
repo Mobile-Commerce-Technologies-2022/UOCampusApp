@@ -2,13 +2,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="100dp">
+    android:layout_height="150dp">
 
     <Button
         android:id="@+id/btn_locate_me"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="50dp"
+        android:gravity="center"
         android:text="Locate Me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_get_direction"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="Get Direction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -16,7 +29,7 @@
         android:id="@+id/tv_facility_item"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="4dp"
         android:text="Facility Name"
         app:layout_constraintStart_toEndOf="@id/btn_locate_me"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +38,7 @@
         android:id="@+id/tv_estimate_time"
         android:layout_width="60dp"
         android:layout_height="50dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="20dp"
         android:text="Estimate Time"
         app:layout_constraintStart_toEndOf="@+id/tv_direct_distance"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +47,7 @@
         android:id="@+id/tv_direct_distance"
         android:layout_width="60dp"
         android:layout_height="50dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="12dp"
         android:text="Direct Distance"
         app:layout_constraintStart_toEndOf="@+id/tv_facility_item"
         app:layout_constraintTop_toTopOf="parent" />
