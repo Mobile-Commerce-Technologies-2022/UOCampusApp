@@ -68,6 +68,43 @@ public class DataParser {
         return routes;
     }
 
+    public static String getDuration(String data) {
+        if (data.isEmpty()) {
+            System.out.println("Data not available");
+            return null;
+        }
+        String result = "";
+        try {
+            JSONObject jObject = new JSONObject(data);
+            JSONArray jRoutes = jObject.getJSONArray("routes");
+            for (int i = 0; i < jRoutes.length(); i++) {
+                JSONArray jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+                result = (String) ((JSONObject) ((JSONObject) jLegs.get(0)).get("duration")).get("text");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String getDistance(String data) {
+        if (data.isEmpty()) {
+            System.out.println("Data not available");
+            return null;
+        }
+        String result = "";
+        try {
+            JSONObject jObject = new JSONObject(data);
+            JSONArray jRoutes = jObject.getJSONArray("routes");
+            for (int i = 0; i < jRoutes.length(); i++) {
+                JSONArray jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+                result = (String) ((JSONObject) ((JSONObject) jLegs.get(0)).get("distance")).get("text");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     /**
      * Method to decode polyline points
      * Courtesy : https://jeffreysambells.com/2010/05/27/decoding-polylines-from-google-maps-direction-api-with-java

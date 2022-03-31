@@ -81,7 +81,6 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
         if (lineOptions != null) {
             //mMap.addPolyline(lineOptions);
             taskCallback.onTaskDone(lineOptions);
-
         } else {
             Log.d(TAG, "without Polylines drawn");
         }

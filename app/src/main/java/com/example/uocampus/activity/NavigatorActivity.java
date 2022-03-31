@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,6 +26,7 @@ import com.example.uocampus.adapter.OnDirectionListener;
 import com.example.uocampus.adapter.OnLocationListener;
 import com.example.uocampus.model.FacilityModel;
 import com.example.uocampus.utils.FetchURL;
+import com.example.uocampus.utils.Result;
 import com.example.uocampus.utils.TaskLoadedCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class NavigatorActivity extends AppCompatActivity implements LocationListener,
                                                                     OnMapReadyCallback,
@@ -107,9 +110,10 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         // default location: University of Ottawa
-        LatLng defaultLocation = new LatLng(45.424721,  -75.695000);
+        LatLng defaultLocation = getLocationFromAddress("75 Laurier Ave. E, Ottawa, ON K1N 6N5");
         addMarker(defaultLocation);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
+        mMap.setMinZoomPreference(DEFAULT_ZOOM);
     }
 
     @Override
@@ -238,6 +242,11 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
             if (currentPolyline != null) {
                 currentPolyline.remove();
             }
+            RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(position);
+            TextView tvDistance = viewHolder.itemView.findViewById(R.id.tv_direct_distance);
+            TextView tvTime = viewHolder.itemView.findViewById(R.id.tv_estimate_time);
+            tvDistance.setText("TBD");
+            tvTime.setText("TBD");
         } else {
             addMarker(facilityModel);
         }
@@ -249,31 +258,34 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         if(facilityModelMarkerMap.get(facilityModel) == null) {
             addMarker(facilityModel);
         }
-//        RouteParser routeParser = new RouteParser(this, userLocationMarker.getPosition(),
-//                                                    facilityModel.getLatLng(),
-//                                                    mMap);
-//            RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(position);
-//            TextView tvDistance = viewHolder.itemView.findViewById(R.id.tv_direct_distance);
-//            TextView tvTime = viewHolder.itemView.findViewById(R.id.tv_estimate_time);
-//
-//            tvDistance.setText(routeParser.getDistance());
-//            tvTime.setText(routeParser.getDuration());
 
         FetchURL worker = (FetchURL) new FetchURL(NavigatorActivity.this,
+                                                    position,
                                                     userLocationMarker.getPosition(),
                                                     facilityModel.getLatLng(),
                                                     "driving");
-        worker.execute();
+        try {
+            String result = worker.execute().get();
+            if(!result.isEmpty()) {
+                String[] rsl = result.split(":");
+                String duration = rsl[0];
+                String distance = rsl[1];
+                Log.d(TAG, String.format("[%s]-----------[%s]", duration, distance));
+                RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(position);
+                TextView tvDistance = viewHolder.itemView.findViewById(R.id.tv_direct_distance);
+                TextView tvTime = viewHolder.itemView.findViewById(R.id.tv_estimate_time);
+                tvDistance.setText(distance);
+                tvTime.setText(duration);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-    }
-    private String getDirectionUrl(LatLng origin, LatLng dest, String mode) {
-        return String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s" +
-                        "&destination=%s,%s" +
-                        "&mode=%s"+
-                        "&key=%s",
-                origin.latitude, origin.longitude,
-                dest.latitude, dest.longitude,
-                mode,
-                "AIzaSyCduND9uK7D0MLbyNKzqjJe50wR53nWvcE");
+//        worker.getResult();
+//        Result result = worker.getResult();
+
+
     }
 }

@@ -3,7 +3,11 @@ package com.example.uocampus.utils;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.uocampus.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.BufferedReader;
@@ -20,9 +24,16 @@ import java.net.URL;
 public class FetchURL extends AsyncTask<String, Void, String> {
     private static final String TAG = FetchURL.class.getSimpleName();
     private final Context mContext;
+    private final int position;
     private Result result;
-    public FetchURL(Context mContext, LatLng origin, LatLng dest, String mode) {
+
+    public Result getResult() {
+        return result;
+    }
+
+    public FetchURL(Context mContext, int position, LatLng origin, LatLng dest, String mode) {
         this.mContext = mContext;
+        this.position = position;
         this.result = new Result(origin, dest, mode);
     }
 
@@ -30,14 +41,17 @@ public class FetchURL extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
         // For storing data from web service
         String data = "";
+        String output = "";
         try {
             // Fetching the data from web service
             data = downloadUrl(getDirectionUrl(this.result.origin, this.result.dest, this.result.mode));
+            output = DataParser.getDuration(data) + ":" + DataParser.getDistance(data);
             Log.d(TAG, "Background task data " + data);
+            Log.d(TAG, "Background task data " + output.split(":").toString());
         } catch (Exception e) {
             Log.d(TAG, e.toString());
         }
-        return data;
+        return output;
     }
 
     @Override
@@ -91,65 +105,3 @@ public class FetchURL extends AsyncTask<String, Void, String> {
     }
 }
 
-class Result {
-    LatLng origin;
-    LatLng dest;
-    String mode;
-    String data = "";
-    String duration = "";
-    String distance = "";
-
-    public Result(LatLng origin, LatLng dest, String mode) {
-        this.origin = origin;
-        this.dest = dest;
-        this.mode = mode;
-    }
-
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
-
-    public LatLng getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(LatLng origin) {
-        this.origin = origin;
-    }
-
-    public LatLng getDest() {
-        return dest;
-    }
-
-    public void setDest(LatLng dest) {
-        this.dest = dest;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
-    }
-}
