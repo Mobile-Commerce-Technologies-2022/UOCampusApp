@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".service.AppointmentService.notification"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,6 +20,12 @@
 
         <activity
             android:name=".activity.NavigatorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".model.Appointment_Model.Q_Userlist"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Q_Appointment"
             android:exported="false" />
         <activity
             android:name=".activity.Forum"

@@ -12,6 +12,10 @@
         <entry key="..\:/UOCampusApp/app/src/main/res/layout/activity_maps.xml" value="0.18541666666666667" />
         <entry key="..\:/UOCampusApp/app/src/main/res/layout/fragment_facility_item.xml" value="0.25" />
         <entry key="..\:/UOCampusApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1935" />
+        <entry key="app/src/main/res/layout/activity_appointment.xml" value="0.28056640625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_quserlist.xml" value="0.1484375" />
+        <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.1484375" />
       </map>
     </option>
   </component>
