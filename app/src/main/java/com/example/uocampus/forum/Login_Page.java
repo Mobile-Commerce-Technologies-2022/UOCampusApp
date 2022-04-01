@@ -45,20 +45,27 @@ public class Login_Page extends AppCompatActivity {
         });
         //创建login button  关联user的 db， 设置全局Host ID
         login.setOnClickListener((view -> {
-            String str = "Your nickname is: " + nickname.getText().toString();
-            Toast.makeText(this, str , Toast.LENGTH_LONG).show();
-            Log.d(TAG,"account nickname set to "+ nickname.getText().toString());
-            saveData();
-            Intent intent = new Intent(Login_Page.this, Entry_page.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-            intent.putExtra("hostID", nickname.getText().toString());
-            Login_Page.this.startActivity(intent);
-            finish();
+            if(nickname.getText().toString().isEmpty()){
+                String str = "Please enter a valid nick name";
+                Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "nick name is null");
+            }else {
+                String str = "Your nickname is: " + nickname.getText().toString();
+                Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "account nickname set to " + nickname.getText().toString());
+                saveData();
+                Intent intent = new Intent(Login_Page.this, Entry_page.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+                intent.putExtra("hostID", nickname.getText().toString());
+                Login_Page.this.startActivity(intent);
+                finish();
+            }
         }));
+
         logout.setOnClickListener((view -> {
             String str = "Your have logged out";
             Log.i(TAG,"account logged out, host ID set to null");
-            Toast.makeText(this, str , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, str , Toast.LENGTH_SHORT).show();
             saveData();
             Intent intent = new Intent(Login_Page.this, Entry_page.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);

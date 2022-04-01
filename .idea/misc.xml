@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/layout/activity_forum.xml" value="0.372210953346856" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/forum.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/forum_entry.xml" value="0.1641337386018237" />
         <entry key="app/src/main/res/layout/fragment_announce.xml" value="0.1358695652173913" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.1759674072265625" />
         <entry key="app/src/main/res/layout/item.xml" value="0.185699722878106" />

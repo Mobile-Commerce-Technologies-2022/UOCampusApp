@@ -61,7 +61,7 @@ public class Post_Page extends AppCompatActivity {
             String str = "Your post has been sent";
             Intent intent = new Intent(this, Entry_page.class);
             startActivity(intent);
-            Toast.makeText(this, str, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         }));
 
         back_button.setOnClickListener(new View.OnClickListener() {
