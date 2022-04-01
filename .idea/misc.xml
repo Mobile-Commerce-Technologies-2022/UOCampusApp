@@ -13,8 +13,11 @@
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.1759674072265625" />
         <entry key="app/src/main/res/layout/item.xml" value="0.185699722878106" />
         <entry key="app/src/main/res/layout/login_page.xml" value="0.15450861195542046" />
+        <entry key="app/src/main/res/layout/post_list.xml" value="0.16259057971014493" />
+        <entry key="app/src/main/res/layout/post_page.xml" value="0.16259057971014493" />
         <entry key="app/src/main/res/layout/postlist.xml" value="0.20153985507246377" />
         <entry key="app/src/main/res/layout/postpage.xml" value="0.1213768115942029" />
+        <entry key="app/src/main/res/layout/single_post.xml" value="0.16259057971014493" />
       </map>
     </option>
   </component>

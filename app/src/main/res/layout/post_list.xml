@@ -12,10 +12,11 @@
         android:id="@+id/list_back"
         android:layout_width="157dp"
         android:layout_height="59dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:background="@color/uottawa"
         android:textColor="@color/white"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+
         android:text="Back" />
 
     <LinearLayout

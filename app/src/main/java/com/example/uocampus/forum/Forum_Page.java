@@ -24,8 +24,8 @@ public class Forum_Page extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_list);
         back = findViewById(R.id.list_back);
-        loader = new DBControl(this,"TEST");
-        loader.getData("TEST",list);
+        loader = new DBControl(this,"TEST_1");
+        loader.getData("TEST_1",list);
 
         for(int i = 0; i < loader.getTotal(); i++){
             Map<String,Object> map = new HashMap<String, Object>();

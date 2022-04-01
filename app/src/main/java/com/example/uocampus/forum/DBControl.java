@@ -6,11 +6,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
+
+import com.example.uocampus.MainActivity;
 
 import java.util.List;
 
 public class DBControl extends SQLiteOpenHelper {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
     private static Integer Version = 1;
     private String id,time,post_content,title;
     private int total = 0;
@@ -29,7 +35,7 @@ public class DBControl extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         System.out.println("Database Create");
-        String st = "CREATE TABLE IF NOT EXISTS TEST(time STRING primary key,ID INTEGER, title TEXT, content TEXT)";
+        String st = "CREATE TABLE IF NOT EXISTS TEST_1(time STRING primary key,ID TEXT, title TEXT, content TEXT)";
         sqLiteDatabase.execSQL(st);
     }
     public String getID() {
@@ -63,24 +69,23 @@ public class DBControl extends SQLiteOpenHelper {
         values.put("title", sub.getTitle());
         values.put("time",sub.getTime());
 
-        long table = db.insert("TEST", null, values);
+        long table = db.insert("TEST_1", null, values);
         db.close();
-        System.out.println("new value inserted - ID: " + sub.getHostID() + ", time: " + sub.getTime() + ", title: "+ sub.getTitle() + ", content: " + sub.getPost_content() + ".");
+        Log.d(TAG,"new value inserted - ID: " + sub.getHostID() + ", time: " + sub.getTime() + ", title: "+ sub.getTitle() + ", content: " + sub.getPost_content() + ".");
         return table != -1;
     }
 
     @SuppressLint("Range")
     public void getData(String dbname, List<Submit_Post_Func> sp){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(dbname,new String[] {"ID","time","title","Content"},"id=?",new String[]{"1"},null,null,null);
+        Cursor cursor = db.query(dbname,null,null,null,null,null,null);
         while(cursor.moveToNext()){
-
             id = cursor.getString(cursor.getColumnIndex("ID"));
             time =  cursor.getString(cursor.getColumnIndex("time"));
             title = cursor.getString(cursor.getColumnIndex("title"));
             post_content = cursor.getString(cursor.getColumnIndex("content"));
             sp.add(new Submit_Post_Func(id,time,title,post_content));
-//            System.out.println("id: "+id+ ", time: "+ time + ", content: "+ post_content);
+            Log.d(TAG,"id: "+id+ ", time: "+ time + ", content: "+ post_content);
             total ++;
         }
         cursor.close();
