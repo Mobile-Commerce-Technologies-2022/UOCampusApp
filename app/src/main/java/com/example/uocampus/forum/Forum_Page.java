@@ -72,7 +72,7 @@ public class Forum_Page extends ListActivity {
                 Object sharable = map.get("content");
                 Log.i(TAG,"Item clicked "+ sharable);
                 String sr = (String)sharable;
-//                share(sr);
+                share(sr);
 //                onShareClick(sr);
             }
 
@@ -100,8 +100,7 @@ public class Forum_Page extends ListActivity {
 //        PackageManager pm = getPackageManager();
 //        Intent sendIntent = new Intent(Intent.ACTION_SEND);
 //        sendIntent.setType("text/plain");
-//
-//
+
 //        Intent openInChooser = Intent.createChooser(emailIntent, str);
 //
 //        List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);

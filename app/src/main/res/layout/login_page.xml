@@ -22,34 +22,34 @@
 
     <Button
         android:id="@+id/login_btn"
+        android:layout_width="157dp"
+        android:layout_height="59dp"
         android:layout_below="@+id/nickname"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
         android:background="@color/uottawa"
-        android:textColor="@color/white"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="157dp"
         android:layout_height="59dp"
-        android:background="@color/uottawa"
-        android:textColor="@color/white"
         android:layout_below="@+id/login_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="Log Out" />
+        android:background="@color/uottawa"
+        android:text="Log Out"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/login_back"
         android:layout_width="157dp"
         android:layout_height="59dp"
-        android:background="@color/uottawa"
-        android:textColor="@color/white"
         android:layout_below="@+id/logout_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="Back" />
+        android:background="@color/uottawa"
+        android:text="Back"
+        android:textColor="@color/white" />
 </RelativeLayout>

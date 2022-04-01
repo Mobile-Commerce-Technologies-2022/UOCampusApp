@@ -35,12 +35,14 @@ public class Post_Page extends AppCompatActivity {
         hostID = getIntent().getStringExtra("hostID");
         sp = getApplication().getSharedPreferences("saved_ID", Context.MODE_PRIVATE);
         hostID = sp.getString("hostID","");
-        if (hostID == ""){
+        Log.i(TAG,"Host ID is: " + hostID);
+        if (hostID.isEmpty()){
             Log.i(TAG,"Host ID is null");
             String str = "Please login first";
             Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Post_Page.class);
-            startActivity(intent);}
+            Intent intent = new Intent(this, Login_Page.class);
+            startActivity(intent);
+            }
         else {
             buttonFunc();
         }
