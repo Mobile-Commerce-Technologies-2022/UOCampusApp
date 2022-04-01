@@ -5,10 +5,16 @@
       <map>
         <entry key="..\:/Android_Application/UOCampus/app/src/main/res/drawable/btnshape.xml" value="0.127" />
         <entry key="..\:/Android_Application/UOCampus/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="app/src/main/res/drawable/btnshape.xml" value="0.137" />
         <entry key="app/src/main/res/layout/activity_forum.xml" value="0.372210953346856" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/forum.xml" value="0.2128623188405797" />
+        <entry key="app/src/main/res/layout/fragment_announce.xml" value="0.1358695652173913" />
+        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.1759674072265625" />
         <entry key="app/src/main/res/layout/item.xml" value="0.185699722878106" />
+        <entry key="app/src/main/res/layout/login_page.xml" value="0.15450861195542046" />
+        <entry key="app/src/main/res/layout/postlist.xml" value="0.20153985507246377" />
+        <entry key="app/src/main/res/layout/postpage.xml" value="0.1213768115942029" />
       </map>
     </option>
   </component>
