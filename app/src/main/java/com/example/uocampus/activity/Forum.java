@@ -1,4 +1,4 @@
-package com.example.uocampus;
+package com.example.uocampus.activity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.text.TextUtils.TruncateAt;
+
+import com.example.uocampus.R;
 
 public class Forum extends ListActivity {
     public String str;

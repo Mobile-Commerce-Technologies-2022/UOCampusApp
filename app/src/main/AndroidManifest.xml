@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.uocampus">
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".service.AppointmentService.notification"
         android:allowBackup="true"
@@ -10,6 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UOCampus">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCduND9uK7D0MLbyNKzqjJe50wR53nWvcE" />
+
+        <activity
+            android:name=".activity.NavigatorActivity"
+            android:exported="false" />
         <activity
             android:name=".model.Appointment_Model.Q_Userlist"
             android:exported="false" />
