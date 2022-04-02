@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnMap.setOnClickListener((view) -> UtilLoader.getInstance().go2Activity(this, NavigatorActivity.class));
+        Button btnAmplify = findViewById(R.id.btn_amplify);
+        btnAmplify.setOnClickListener((view) -> UtilLoader.getInstance().go2Activity(this, AmplifyActivity.class));
 
         btnAppointment.setOnClickListener(new View.OnClickListener() {
 

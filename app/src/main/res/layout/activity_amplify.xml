@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="260dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="132dp"
+        android:text="create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="260dp"
+        android:layout_height="60dp"
+        android:text="update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_create" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="260dp"
+        android:layout_height="60dp"
+        android:text="delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_update" />
+
+    <Button
+        android:id="@+id/btn_query_last"
+        android:layout_width="260dp"
+        android:layout_height="60dp"
+        android:text="query"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_delete" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

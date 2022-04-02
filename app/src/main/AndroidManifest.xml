@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name=".service.AppointmentService.notification"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,7 +16,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCduND9uK7D0MLbyNKzqjJe50wR53nWvcE" />
-
+        <activity
+            android:name=".activity.AmplifyActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.NavigatorActivity"
             android:exported="false" />

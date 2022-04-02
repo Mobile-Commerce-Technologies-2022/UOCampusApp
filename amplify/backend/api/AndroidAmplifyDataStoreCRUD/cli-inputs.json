@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "AndroidAmplifyDataStoreCRUD",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/tmp/amplify-158e5e94-4c57-4d7b-9069-87cea928dfb6/amplify/backend/api/AndroidAmplifyDataStoreCRUD/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "keyDescription": "This is an api key",
+      "expirationTime": 30
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AWS_IAM"
+      }
+    ],
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "AUTOMERGE"
+      }
+    }
+  }
+}
