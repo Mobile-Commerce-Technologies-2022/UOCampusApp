@@ -14,7 +14,7 @@
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:text="Back"
 
         android:textColor="@color/white" />

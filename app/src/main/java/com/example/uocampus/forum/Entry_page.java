@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.uocampus.MainActivity;
+import com.example.uocampus.activity.MainActivity;
 import com.example.uocampus.R;
 
 public class Entry_page extends AppCompatActivity{
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = Entry_page.class.getSimpleName();
     Button viewForum,login,post,back;
 
     protected void onCreate(Bundle savedInstanceState) {

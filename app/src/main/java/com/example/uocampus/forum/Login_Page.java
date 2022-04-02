@@ -12,12 +12,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.uocampus.MainActivity;
+import com.example.uocampus.activity.MainActivity;
 import com.example.uocampus.R;
 
 public class Login_Page extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = Login_Page.class.getSimpleName();
     private Button login,logout,back;
     private EditText nickname;
     private Submit_Post_Func sub = new Submit_Post_Func();

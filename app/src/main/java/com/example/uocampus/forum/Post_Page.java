@@ -10,14 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.uocampus.MainActivity;
+import com.example.uocampus.activity.MainActivity;
 import com.example.uocampus.R;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Post_Page extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = Post_Page.class.getSimpleName();
     private Submit_Post_Func sub = new Submit_Post_Func();
     private Button submit_button, back_button;
     private EditText content,title;

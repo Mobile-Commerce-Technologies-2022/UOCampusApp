@@ -35,10 +35,9 @@
             android:exported="false" />
         <activity
             android:name=".forum.Login_Page"
-            android:name=".activity.Q_Appointment"
             android:exported="false" />
         <activity
-            android:name=".activity.Forum"
+            android:name=".activity.Q_Appointment"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"

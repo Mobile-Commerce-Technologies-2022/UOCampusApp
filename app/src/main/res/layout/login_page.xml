@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="#DDDDDD">
 
-
     <EditText
         android:id="@+id/nickname"
         android:layout_width="227dp"
@@ -27,7 +26,7 @@
         android:layout_below="@+id/nickname"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:text="Login"
         android:textColor="@color/white" />
 
@@ -38,7 +37,7 @@
         android:layout_below="@+id/login_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:text="Log Out"
         android:textColor="@color/white" />
 
@@ -49,7 +48,7 @@
         android:layout_below="@+id/logout_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:text="Back"
         android:textColor="@color/white" />
 </RelativeLayout>

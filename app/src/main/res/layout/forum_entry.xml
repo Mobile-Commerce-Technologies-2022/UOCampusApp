@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="127dp"
         android:layout_marginTop="40dp"
-        android:background="@color/uottawa"
+        android:background="@color/primary"
         android:text="View Forum"
         android:textColor="@color/white" />
 
@@ -26,7 +26,7 @@
         android:layout_below="@+id/viewForum"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/uottawa"
+        android:backgroundTint="@color/primary"
         android:text="Login"
         android:textColor="@color/white" />
 
@@ -37,7 +37,7 @@
         android:layout_below="@+id/login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/uottawa"
+        android:backgroundTint="@color/primary"
         android:text="New Post"
         android:textColor="@color/white" />
 
@@ -48,7 +48,7 @@
         android:layout_below="@+id/post"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/uottawa"
+        android:backgroundTint="@color/primary"
         android:text="Back to Menu"
         android:textColor="@color/white" />
 

@@ -10,13 +10,13 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.uocampus.MainActivity;
+import com.example.uocampus.activity.MainActivity;
 
 import java.util.List;
 
 public class DBControl extends SQLiteOpenHelper {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = DBControl.class.getSimpleName();
     private static Integer Version = 1;
     private String id,time,post_content,title;
     private int total = 0;

@@ -20,8 +20,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.net.Uri;
-
-import com.example.uocampus.MainActivity;
+import com.example.uocampus.activity.MainActivity;
 import com.example.uocampus.R;
 
 public class Forum_Page extends ListActivity {
