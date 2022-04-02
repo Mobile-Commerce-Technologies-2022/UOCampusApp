@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#DDDDDD">
 
+
     <Button
         android:id="@+id/viewForum"
         android:layout_width="157dp"
