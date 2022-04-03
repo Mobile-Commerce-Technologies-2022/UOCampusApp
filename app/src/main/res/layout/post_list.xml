@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="4dip"
     android:paddingBottom="20dip"
-    android:background="#DDDDDD">
+    android:background="#F4F3ED">
 
     <Button
         android:id="@+id/list_back"
@@ -14,7 +14,7 @@
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/primary"
+        android:background="@drawable/btnshape"
         android:text="Back"
 
         android:textColor="@color/white" />

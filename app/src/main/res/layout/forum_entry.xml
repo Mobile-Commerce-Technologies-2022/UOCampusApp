@@ -3,63 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDDDDD">
+    android:background="@color/white">
 
 
     <Button
         android:id="@+id/viewForum"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/imageView2"
-        android:layout_alignParentStart="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="127dp"
-        android:layout_marginTop="40dp"
-        android:background="@color/primary"
+        android:layout_marginTop="71dp"
+        android:background="@drawable/btnshape"
         android:text="View Forum"
         android:textColor="@color/white" />
 
     <Button
         android:id="@+id/login"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/viewForum"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/primary"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/btnshape"
         android:text="Login"
         android:textColor="@color/white" />
 
     <Button
         android:id="@+id/post"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/login"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/primary"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/btnshape"
         android:text="New Post"
         android:textColor="@color/white" />
 
     <Button
         android:id="@+id/menu"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/post"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/primary"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/btnshape"
         android:text="Back to Menu"
         android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="334dp"
-        android:layout_height="214dp"
+        android:layout_width="381dp"
+        android:layout_height="209dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         app:srcCompat="@drawable/forum" />
 
 </RelativeLayout>
