@@ -1,5 +1,5 @@
 package com.example.uocampus.adapter;
 
 public interface OnDirectionListener {
-    void onDirectionClick(int position);
+    void onDirectionClick(int position, boolean drawPolyline);
 }

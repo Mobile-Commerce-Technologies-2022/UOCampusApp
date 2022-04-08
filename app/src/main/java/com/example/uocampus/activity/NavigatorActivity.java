@@ -24,6 +24,8 @@ import com.example.uocampus.R;
 import com.example.uocampus.adapter.FacilityViewAdapter;
 import com.example.uocampus.adapter.OnDirectionListener;
 import com.example.uocampus.adapter.OnLocationListener;
+import com.example.uocampus.dao.NavigationDao;
+import com.example.uocampus.dao.impl.NavigationDaoImpl;
 import com.example.uocampus.model.FacilityModel;
 import com.example.uocampus.utils.FetchURL;
 import com.example.uocampus.utils.Result;
@@ -51,20 +53,22 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                                                                     OnDirectionListener,
                                                                     TaskLoadedCallback {
     private static final String TAG = NavigatorActivity.class.getSimpleName();
-    private final int TIME_INTERVAL = 2500;
+    private final int TIME_INTERVAL = 5000;
     private final int MIN_DISTANCE_M = 0;
     private static final int DEFAULT_ZOOM = 15;
 
     private GoogleMap mMap;
     private LocationManager locationManager;
     private Location userLocation;
-    private Marker userLocationMarker;
     private Map<FacilityModel,Marker> facilityModelMarkerMap;
     private Polyline currentPolyline;
-
+    private FacilityModel onTrackingFacility;
     RecyclerView mRecyclerView;
     FacilityViewAdapter facilityViewAdapter;
     List<FacilityModel> mFacilityList = new ArrayList<>();
+
+    NavigationDao navigationDao = new NavigationDaoImpl(NavigatorActivity.this);
+
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 mapFragment.getMapAsync(this::onMapReady);
 
                 // Facility Initialization
+                loadFacility();
                 facilityModelMarkerMap = new HashMap<>();
                 facilityViewAdapter = new FacilityViewAdapter(NavigatorActivity.this,
                         mFacilityList,
@@ -92,7 +97,6 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 mRecyclerView.setAdapter(facilityViewAdapter);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(NavigatorActivity.this);
                 mRecyclerView.setLayoutManager(linearLayoutManager);
-                loadFacility();
             }
             else {
                 Toast.makeText(this, "Not Granted", Toast.LENGTH_SHORT).show();
@@ -111,7 +115,6 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         mMap.setMyLocationEnabled(true);
         // default location: University of Ottawa
         LatLng defaultLocation = getLocationFromAddress("75 Laurier Ave. E, Ottawa, ON K1N 6N5");
-        addMarker(defaultLocation);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
         mMap.setMinZoomPreference(DEFAULT_ZOOM);
     }
@@ -120,9 +123,13 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     public void onLocationChanged(@NonNull Location location) {
         userLocation = location;
         if(mMap != null) {
-            removeMarker(userLocationMarker);
-            addMarker(userLocation);
             mMap.setMinZoomPreference(DEFAULT_ZOOM);
+            // TODO: request all facility information again
+            if (onTrackingFacility != null) {
+                if(currentPolyline != null)
+                    currentPolyline.remove();
+                updateDirectionInfo(onTrackingFacility, true);
+            }
         }
         Log.d(TAG, location.toString());
     }
@@ -145,18 +152,23 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     }
 
     public void loadFacility() {
-        String[] tempFacility = new String[] {
-                "1 Nicholas StOttawa, ON K1N 7B7",
-                "100 Laurier Ave. EOttawa, ON K1N 6N7",
-                "100 Marie-Curie PrivateOttawa, ON K1N 9N3",
-                "90 University PrivateOttawa, ON K1N 6N5"
-        };
-        for (String s : tempFacility) {
-            LatLng latLng = getLocationFromAddress(s);
-            FacilityModel model = new FacilityModel(s, latLng);
-            mFacilityList.add(model);
-            if (latLng != null) {
-                Log.d(TAG, latLng.toString());
+        this.mFacilityList = navigationDao.queryAll();
+
+        if(this.mFacilityList.isEmpty()) {
+            String[] tempFacility = getResources().getStringArray(R.array.facility_name);
+
+            for (String s : tempFacility) {
+                LatLng latLng = getLocationFromAddress(s);
+                FacilityModel model = new FacilityModel(s, latLng);
+                navigationDao.addFacilityModel(model);
+                mFacilityList.add(model);
+                if (latLng != null) {
+                    Log.d(TAG, latLng.toString());
+                }
+            }
+        } else {
+            for(FacilityModel model : mFacilityList) {
+                Log.d(TAG, model.toString());
             }
         }
     }
@@ -188,16 +200,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
      * @param object an instance of LatLng/ Location/ FacilityModel
      */
     private void addMarker(Object object) {
-        if(object instanceof LatLng) {
-            userLocationMarker = mMap.addMarker(new MarkerOptions()
-                    .position((LatLng) object)
-                    .title("Your Location"));
-        } else if(object instanceof Location) {
-            userLocationMarker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(((Location) object).getLatitude(),
-                                        ((Location) object).getLongitude()))
-                    .title("Your Location"));
-        } else if(object instanceof FacilityModel) {
+        if(object instanceof FacilityModel) {
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(((FacilityModel) object).getLatLng())
                     .title(((FacilityModel) object).getNAME()));
@@ -241,31 +244,38 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
             removeMarker(facilityModel);
             if (currentPolyline != null) {
                 currentPolyline.remove();
+                this.onTrackingFacility = null;
             }
             RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(position);
             TextView tvDistance = viewHolder.itemView.findViewById(R.id.tv_direct_distance);
             TextView tvTime = viewHolder.itemView.findViewById(R.id.tv_estimate_time);
-            tvDistance.setText("TBD");
-            tvTime.setText("TBD");
+            tvDistance.setText("N/A");
+            tvTime.setText("N/A");
         } else {
             addMarker(facilityModel);
         }
     }
 
     @Override
-    public void onDirectionClick(int position) {
+    public void onDirectionClick(int position, boolean drawPolyline) {
+        Log.e(TAG, "onClick "+(position));
         FacilityModel facilityModel = mFacilityList.get(position);
+        this.onTrackingFacility = facilityModel;
         if(facilityModelMarkerMap.get(facilityModel) == null) {
             addMarker(facilityModel);
         }
 
-        FetchURL worker = (FetchURL) new FetchURL(NavigatorActivity.this,
-                                                    position,
-                                                    userLocationMarker.getPosition(),
-                                                    facilityModel.getLatLng(),
-                                                    "driving");
+        updateDirectionInfo(facilityModel, true);
+    }
+
+    private synchronized void updateDirectionInfo(FacilityModel facility, boolean drawPolyline) {
+        FetchURL worker = new FetchURL(NavigatorActivity.this,
+                new LatLng(userLocation.getLatitude(), userLocation.getLongitude()),
+                facility.getLatLng(),
+                "driving", drawPolyline);
         try {
             String result = worker.execute().get();
+            int position = mFacilityList.indexOf(facility);
             if(!result.isEmpty()) {
                 String[] rsl = result.split(":");
                 String duration = rsl[0];
@@ -282,10 +292,5 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-//        worker.getResult();
-//        Result result = worker.getResult();
-
-
     }
 }

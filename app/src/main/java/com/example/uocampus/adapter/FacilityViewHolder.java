@@ -40,16 +40,8 @@ public class FacilityViewHolder extends RecyclerView.ViewHolder implements View.
             onLocationListener.onLocationClick(getAdapterPosition());
         } else if (view.getId() == R.id.btn_get_direction) {
             btnLocate.setText("Clear");
-            onDirectionListener.onDirectionClick(getAdapterPosition());
+            onDirectionListener.onDirectionClick(getAdapterPosition(), true);
         }
 
-    }
-
-    public TextView getTvTime() {
-        return tvTime;
-    }
-
-    public TextView getTvDistance() {
-        return tvDistance;
     }
 }

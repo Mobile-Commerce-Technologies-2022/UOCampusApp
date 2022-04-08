@@ -24,17 +24,17 @@ import java.net.URL;
 public class FetchURL extends AsyncTask<String, Void, String> {
     private static final String TAG = FetchURL.class.getSimpleName();
     private final Context mContext;
-    private final int position;
     private Result result;
+    private boolean drawPolyline;
 
     public Result getResult() {
         return result;
     }
 
-    public FetchURL(Context mContext, int position, LatLng origin, LatLng dest, String mode) {
+    public FetchURL(Context mContext, LatLng origin, LatLng dest, String mode,boolean drawPolyline) {
         this.mContext = mContext;
-        this.position = position;
         this.result = new Result(origin, dest, mode);
+        this.drawPolyline = drawPolyline;
     }
 
     @Override
@@ -57,9 +57,11 @@ public class FetchURL extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        PointsParser parserTask = new PointsParser(mContext, this.result);
-        // Invokes the thread for parsing the JSON data
-        parserTask.execute(s);
+        if(this.drawPolyline) {
+            PointsParser parserTask = new PointsParser(mContext, this.result);
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(s);
+        }
     }
 
     private String downloadUrl(String strUrl) throws IOException {

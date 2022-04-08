@@ -18,6 +18,7 @@ public class FacilityViewAdapter extends RecyclerView.Adapter<FacilityViewHolder
     private final List<FacilityModel> facilityModelList;
     private OnLocationListener onLocationListener;
     private OnDirectionListener onDirectionListener;
+
     public FacilityViewAdapter(Context context,
                                List<FacilityModel> facilityModelList,
                                OnLocationListener onLocationListener,
@@ -34,14 +35,15 @@ public class FacilityViewAdapter extends RecyclerView.Adapter<FacilityViewHolder
         View view = LayoutInflater.from(context).inflate(R.layout.fragment_facility_item,
                                                          parent,
                                               false);
-        return new FacilityViewHolder(view, onLocationListener, onDirectionListener);
+        FacilityViewHolder viewHolder= new FacilityViewHolder(view, onLocationListener, onDirectionListener);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FacilityViewHolder holder, int position) {
         holder.tvFacility.setText(facilityModelList.get(position).getNAME());
-        holder.tvTime.setText("Estimating time...");
-        holder.tvDistance.setText("Estimating distance...");
+        holder.tvTime.setText("N/A");
+        holder.tvDistance.setText("N/A");
         holder.btnLocate.setText("Locate Me");
     }
 
@@ -49,7 +51,5 @@ public class FacilityViewAdapter extends RecyclerView.Adapter<FacilityViewHolder
     public int getItemCount() {
         return facilityModelList.size();
     }
-
-
 }
 
