@@ -9,6 +9,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,18 +19,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uocampus.R;
-import com.example.uocampus.adapter.FacilityViewAdapter;
-import com.example.uocampus.adapter.OnDirectionListener;
-import com.example.uocampus.adapter.OnLocationListener;
+import com.example.uocampus.adapter.ButtonCallback;
+import com.example.uocampus.adapter.FacilityAdapter;
 import com.example.uocampus.dao.NavigationDao;
 import com.example.uocampus.dao.impl.NavigationDaoImpl;
 import com.example.uocampus.model.FacilityModel;
 import com.example.uocampus.utils.FetchURL;
-import com.example.uocampus.utils.Result;
 import com.example.uocampus.utils.TaskLoadedCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,8 +47,7 @@ import java.util.concurrent.ExecutionException;
 
 public class NavigatorActivity extends AppCompatActivity implements LocationListener,
                                                                     OnMapReadyCallback,
-                                                                    OnLocationListener,
-                                                                    OnDirectionListener,
+                                                                    ButtonCallback,
                                                                     TaskLoadedCallback {
     private static final String TAG = NavigatorActivity.class.getSimpleName();
     private final int TIME_INTERVAL = 5000;
@@ -63,11 +60,12 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     private Map<FacilityModel,Marker> facilityModelMarkerMap;
     private Polyline currentPolyline;
     private FacilityModel onTrackingFacility;
-    RecyclerView mRecyclerView;
-    FacilityViewAdapter facilityViewAdapter;
     List<FacilityModel> mFacilityList = new ArrayList<>();
 
     NavigationDao navigationDao = new NavigationDaoImpl(NavigatorActivity.this);
+
+    ListView listView;
+
 
     @SuppressLint("MissingPermission")
     @Override
@@ -89,14 +87,12 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 // Facility Initialization
                 loadFacility();
                 facilityModelMarkerMap = new HashMap<>();
-                facilityViewAdapter = new FacilityViewAdapter(NavigatorActivity.this,
-                        mFacilityList,
-                        this::onLocationClick,
-                        this::onDirectionClick);
-                mRecyclerView = findViewById(R.id.rv_facility);
-                mRecyclerView.setAdapter(facilityViewAdapter);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(NavigatorActivity.this);
-                mRecyclerView.setLayoutManager(linearLayoutManager);
+
+                listView = findViewById(R.id.lv_facility);
+                FacilityAdapter facilityAdapter = new FacilityAdapter(this,
+                        R.layout.fragment_facility_list_row,
+                        (ArrayList<FacilityModel>) mFacilityList);
+                listView.setAdapter(facilityAdapter);
             }
             else {
                 Toast.makeText(this, "Not Granted", Toast.LENGTH_SHORT).show();
@@ -246,9 +242,10 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 currentPolyline.remove();
                 this.onTrackingFacility = null;
             }
-            RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(position);
-            TextView tvDistance = viewHolder.itemView.findViewById(R.id.tv_direct_distance);
-            TextView tvTime = viewHolder.itemView.findViewById(R.id.tv_estimate_time);
+
+            View viewHolder = listView.getAdapter().getView(position, null, listView);
+            TextView tvDistance = viewHolder.findViewById(R.id.tv_estimate_distance);
+            TextView tvTime = viewHolder.findViewById(R.id.tv_arriving_time);
             tvDistance.setText("N/A");
             tvTime.setText("N/A");
         } else {
@@ -281,9 +278,10 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 String duration = rsl[0];
                 String distance = rsl[1];
                 Log.d(TAG, String.format("[%s]-----------[%s]", duration, distance));
-                RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(position);
-                TextView tvDistance = viewHolder.itemView.findViewById(R.id.tv_direct_distance);
-                TextView tvTime = viewHolder.itemView.findViewById(R.id.tv_estimate_time);
+
+                View viewHolder = listView.getAdapter().getView(position, null, listView);
+                TextView tvDistance = viewHolder.findViewById(R.id.tv_estimate_distance);
+                TextView tvTime = viewHolder.findViewById(R.id.tv_arriving_time);
                 tvDistance.setText(distance);
                 tvTime.setText(duration);
             }
