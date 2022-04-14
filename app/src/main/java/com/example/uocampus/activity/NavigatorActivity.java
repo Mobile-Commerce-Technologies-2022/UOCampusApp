@@ -22,6 +22,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.NavigatorRecordModel;
+import com.amplifyframework.datastore.generated.model.TestModel;
 import com.example.uocampus.R;
 import com.example.uocampus.adapter.ButtonCallback;
 import com.example.uocampus.adapter.FacilityAdapter;
@@ -100,11 +106,21 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 Toast.makeText(this, "Not Granted", Toast.LENGTH_SHORT).show();
             }
         });
-
+        configAmplify();
         multiplePermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                                                         Manifest.permission.INTERNET});
     }
 
+    private void configAmplify() {
+        try {
+            Amplify.addPlugin(new AWSApiPlugin()); // UNCOMMENT this line once backend is deployed
+            Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("Amplify", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("Amplify", "Could not initialize Amplify", error);
+        }
+    }
 
     @SuppressLint("MissingPermission")
     @Override
@@ -254,7 +270,6 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
 
     @Override
     public void onDirectionClick(int position, boolean drawPolyline) {
-        Log.e(TAG, "onClick "+(position));
         FacilityModel facilityModel = mFacilityList.get(position);
         this.onTrackingFacility = facilityModel;
         if(facilityModelMarkerMap.get(facilityModel) == null) {
@@ -285,11 +300,28 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 facilityModel.setDirectDistance(distance);
                 mFacilityList.set(position, facilityModel);
                 adapter.notifyDataSetChanged();
+                if(drawPolyline) {
+                    create(this.userLocation, facilityModel);
+                }
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void create(Location userLocation, FacilityModel facilityModel) {
+        NavigatorRecordModel item = NavigatorRecordModel.builder()
+                .origin(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()).toString())
+                .dest(facilityModel.getLatLng().toString())
+                .estimateTime(facilityModel.getEstimateTime())
+                .estimateDistance(facilityModel.getDirectDistance())
+                .build();
+        Amplify.DataStore.save(
+                item,
+                success -> Log.i("Amplify", "Saved item: " + success.item().getId()),
+                error -> Log.e("Amplify", "Could not save item to DataStore", error)
+        );
     }
 }

@@ -1,4 +1,13 @@
+type NavigatorRecordModel @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  origin: String
+  dest: String
+  estimate_time: String
+  estimate_distance: String
+}
+
 type TestModel @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
 }
+ 
