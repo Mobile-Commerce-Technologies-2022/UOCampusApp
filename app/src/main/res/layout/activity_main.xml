@@ -31,10 +31,10 @@
 
     <Button
         android:id="@+id/btn_forum"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
+        android:layout_width="189dp"
+        android:layout_height="62dp"
         android:layout_marginTop="40dp"
-        android:background="@color/primary"
+        android:background="@drawable/btnshape"
         android:text="Forum"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,11 +43,11 @@
 
     <Button
         android:id="@+id/btn_appointment"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
+        android:layout_width="189dp"
+        android:layout_height="62dp"
         android:layout_marginTop="36dp"
+        android:background="@drawable/btnshape"
         android:text="Appointment"
-        android:background="@color/primary"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,11 +55,11 @@
 
     <Button
         android:id="@+id/btn_map"
-        android:layout_width="157dp"
-        android:layout_height="59dp"
+        android:layout_width="189dp"
+        android:layout_height="62dp"
         android:layout_marginTop="36dp"
         android:text="Map"
-        android:background="@color/primary"
+        android:background="@drawable/btnshape"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

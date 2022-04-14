@@ -21,6 +21,7 @@
         tools:layout_editor_absoluteX="26dp"
         tools:layout_editor_absoluteY="57dp" />
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
@@ -28,11 +29,21 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="2dp"
         app:srcCompat="@drawable/appointment" />
 
+    <TextView
+        android:id="@+id/wait_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="399dp"
+        android:layout_toEndOf="@+id/wait"
+        android:text="time_text " />
 
     <TextView
         android:id="@+id/wait"
@@ -40,19 +51,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="262dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="398dp"
         android:text="Estimate Wait time: " />
-
-    <TextView
-        android:id="@+id/wait_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="127dp"
-        android:layout_marginBottom="263dp"
-        android:text="time_text " />
 
     <TextView
         android:id="@+id/line"
@@ -60,50 +62,60 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="230dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="363dp"
         android:text="People in Line: " />
 
     <TextView
         android:id="@+id/line_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="99dp"
-        android:layout_marginBottom="230dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="363dp"
+        android:layout_toEndOf="@+id/line"
         android:text="number of people" />
 
     <Button
         android:id="@+id/queue"
-        android:layout_width="wrap_content"
+        android:layout_width="183dp"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/view"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="163dp"
-        android:layout_marginBottom="166dp"
-        android:text="Place your Queue" />
+        android:layout_marginEnd="111dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/btnshape"
+        android:text="Place your Queue"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/cancelQ"
-        android:layout_width="wrap_content"
+        android:layout_width="183dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="203dp"
-        android:layout_marginBottom="32dp"
-        android:text="Cancel your Queue" />
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="96dp"
+        android:background="@drawable/btnshape"
+        android:text="Cancel your Queue"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/view"
-        android:layout_width="wrap_content"
+        android:layout_width="183dp"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/cancelQ"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="125dp"
-        android:layout_marginBottom="109dp"
-        android:text="View your Queue" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="99dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/btnshape"
+        android:text="View your Queue"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
 </RelativeLayout>

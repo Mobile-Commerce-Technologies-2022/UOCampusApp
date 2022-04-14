@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         btnMap = (Button) findViewById(R.id.btn_map);
 
         btnForum.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Forum.class);
+            Intent intent = new Intent(MainActivity.this, com.example.uocampus.forum.Entry_page.class);
             startActivity(intent);
         });
 

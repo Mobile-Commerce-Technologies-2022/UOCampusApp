@@ -12,13 +12,22 @@
         <entry key="..\:/UOCampusApp/app/src/main/res/layout/activity_maps.xml" value="0.18541666666666667" />
         <entry key="..\:/UOCampusApp/app/src/main/res/layout/fragment_facility_item.xml" value="0.25" />
         <entry key="..\:/UOCampusApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1935" />
+        <entry key="app/src/main/res/drawable/btnshape.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_appointment.xml" value="0.28056640625" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_quserlist.xml" value="0.1484375" />
+        <entry key="app/src/main/res/layout/forum_entry.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/fragment_cancelqueue.xml" value="0.33177083333333335" />
+        <entry key="app/src/main/res/layout/fragment_facility_item.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.1484375" />
+        <entry key="app/src/main/res/layout/login_page.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/post_list.xml" value="0.20952809651692708" />
+        <entry key="app/src/main/res/layout/post_page.xml" value="0.33177083333333335" />
+        <entry key="app/src/main/res/layout/single_post.xml" value="0.33177083333333335" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

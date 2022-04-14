@@ -26,10 +26,19 @@
             android:name=".model.Appointment_Model.Q_Userlist"
             android:exported="false" />
         <activity
-            android:name=".activity.Q_Appointment"
+            android:name=".forum.Forum_Page"
             android:exported="false" />
         <activity
-            android:name=".activity.Forum"
+            android:name=".forum.Entry_page"
+            android:exported="false" />
+        <activity
+            android:name=".forum.Post_Page"
+            android:exported="false" />
+        <activity
+            android:name=".forum.Login_Page"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Q_Appointment"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"

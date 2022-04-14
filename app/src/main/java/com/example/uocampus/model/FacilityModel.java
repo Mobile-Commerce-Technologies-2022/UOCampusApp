@@ -3,8 +3,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class FacilityModel {
     private final String NAME;
-    private double directDistance;
-    private long estimateTime;
+    private String directDistance;
+    private String estimateTime;
     private final LatLng latLng;
 
     public LatLng getLatLng() {
@@ -14,25 +14,27 @@ public class FacilityModel {
     public FacilityModel(String NAME, LatLng latLng) {
         this.NAME = NAME;
         this.latLng = latLng;
+        this.directDistance = "pending";
+        this.estimateTime = "pending";
     }
 
     public String getNAME() {
         return NAME;
     }
 
-    public double getDirectDistance() {
+    public String getDirectDistance() {
         return directDistance;
     }
 
-    public void setDirectDistance(double directDistance) {
+    public void setDirectDistance(String directDistance) {
         this.directDistance = directDistance;
     }
 
-    public long getEstimateTime() {
+    public String getEstimateTime() {
         return estimateTime;
     }
 
-    public void setEstimateTime(long estimateTime) {
+    public void setEstimateTime(String estimateTime) {
         this.estimateTime = estimateTime;
     }
 

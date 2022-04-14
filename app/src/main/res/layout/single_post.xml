@@ -30,7 +30,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="1dip" >
+            android:padding="1dip">
 
             <TextView
                 android:id="@+id/id"
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="#E8E8E8"
-            android:padding="1dip"/>
+            android:padding="1dip" />
 
         <TextView
             android:id="@+id/title"
@@ -72,13 +72,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dip"
             android:text="content text here"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shrinkColumns="0,1,2"/>
+            android:shrinkColumns="0,1,2" />
 
     </LinearLayout>
+
 </RelativeLayout>
