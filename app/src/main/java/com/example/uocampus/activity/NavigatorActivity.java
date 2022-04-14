@@ -10,6 +10,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +67,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     NavigationDao navigationDao = new NavigationDaoImpl(NavigatorActivity.this);
 
     ListView listView;
-
+    FacilityAdapter facilityAdapter;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -89,7 +91,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 facilityModelMarkerMap = new HashMap<>();
 
                 listView = findViewById(R.id.lv_facility);
-                FacilityAdapter facilityAdapter = new FacilityAdapter(this,
+                facilityAdapter = new FacilityAdapter(this,
                         R.layout.fragment_facility_list_row,
                         (ArrayList<FacilityModel>) mFacilityList);
                 listView.setAdapter(facilityAdapter);
@@ -125,6 +127,9 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 if(currentPolyline != null)
                     currentPolyline.remove();
                 updateDirectionInfo(onTrackingFacility, true);
+            }
+            for(FacilityModel facility : mFacilityList) {
+                updateDirectionInfo(facility, false);
             }
         }
         Log.d(TAG, location.toString());
@@ -242,12 +247,6 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 currentPolyline.remove();
                 this.onTrackingFacility = null;
             }
-
-            View viewHolder = listView.getAdapter().getView(position, null, listView);
-            TextView tvDistance = viewHolder.findViewById(R.id.tv_estimate_distance);
-            TextView tvTime = viewHolder.findViewById(R.id.tv_arriving_time);
-            tvDistance.setText("N/A");
-            tvTime.setText("N/A");
         } else {
             addMarker(facilityModel);
         }
@@ -265,7 +264,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         updateDirectionInfo(facilityModel, true);
     }
 
-    private synchronized void updateDirectionInfo(FacilityModel facility, boolean drawPolyline) {
+    public void updateDirectionInfo(FacilityModel facility, boolean drawPolyline) {
         FetchURL worker = new FetchURL(NavigatorActivity.this,
                 new LatLng(userLocation.getLatitude(), userLocation.getLongitude()),
                 facility.getLatLng(),
@@ -279,11 +278,13 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
                 String distance = rsl[1];
                 Log.d(TAG, String.format("[%s]-----------[%s]", duration, distance));
 
-                View viewHolder = listView.getAdapter().getView(position, null, listView);
-                TextView tvDistance = viewHolder.findViewById(R.id.tv_estimate_distance);
-                TextView tvTime = viewHolder.findViewById(R.id.tv_arriving_time);
-                tvDistance.setText(distance);
-                tvTime.setText(duration);
+                FacilityAdapter adapter = (FacilityAdapter) listView.getAdapter();
+                View view = adapter.getView(position,null, listView);
+                FacilityModel facilityModel = mFacilityList.get(position);
+                facilityModel.setEstimateTime(duration);
+                facilityModel.setDirectDistance(distance);
+                mFacilityList.set(position, facilityModel);
+                adapter.notifyDataSetChanged();
             }
         } catch (ExecutionException e) {
             e.printStackTrace();

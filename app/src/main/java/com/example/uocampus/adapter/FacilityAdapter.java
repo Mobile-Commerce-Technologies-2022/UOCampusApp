@@ -2,6 +2,7 @@ package com.example.uocampus.adapter;
 
 import android.content.Context;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,12 @@ public class FacilityAdapter extends ArrayAdapter<FacilityModel>{
 
     private Context mContext;
     private int mResource;
-
-    public FacilityAdapter(@NonNull Context context, int resource, @NonNull ArrayList<FacilityModel> objects) {
-        super(context, resource, objects);
+    private ArrayList<FacilityModel> list;
+    public FacilityAdapter(@NonNull Context context, int resource, @NonNull ArrayList<FacilityModel> list) {
+        super(context, resource, list);
         this.mContext = context;
         this.mResource = resource;
-
+        this.list = list;
     }
 
 
@@ -46,24 +47,16 @@ public class FacilityAdapter extends ArrayAdapter<FacilityModel>{
         Button btnDirection = convertView.findViewById(R.id.btn_direction);
 
         tvName.setText(getItem(position).getNAME());
-        tvDistance.setText("pending");
-        tvTime.setText("pending");
+        tvDistance.setText(getItem(position).getDirectDistance());
+        tvTime.setText(getItem(position).getEstimateTime());
 
-        btnLocate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((NavigatorActivity) mContext).onLocationClick(position);
-            }
+        btnLocate.setOnClickListener(view -> {
+            ((NavigatorActivity) mContext).onLocationClick(position);
         });
 
-        btnDirection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((NavigatorActivity) mContext).onDirectionClick(position, true);
-            }
+        btnDirection.setOnClickListener(view -> {
+            ((NavigatorActivity) mContext).onDirectionClick(position, true);
         });
-
-
         return convertView;
     }
 }
