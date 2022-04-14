@@ -49,6 +49,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -65,6 +66,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     private GoogleMap mMap;
     private LocationManager locationManager;
     private Location userLocation;
+    private Marker userLocationMarker;
     private Map<FacilityModel,Marker> facilityModelMarkerMap;
     private Polyline currentPolyline;
     private FacilityModel onTrackingFacility;
@@ -129,6 +131,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         mMap.setMyLocationEnabled(true);
         // default location: University of Ottawa
         LatLng defaultLocation = getLocationFromAddress("75 Laurier Ave. E, Ottawa, ON K1N 6N5");
+        addMarker(defaultLocation);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
         mMap.setMinZoomPreference(DEFAULT_ZOOM);
     }
@@ -137,8 +140,11 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
     public void onLocationChanged(@NonNull Location location) {
         userLocation = location;
         if(mMap != null) {
+            removeMarker(userLocationMarker);
+            addMarker(userLocation);
+
             mMap.setMinZoomPreference(DEFAULT_ZOOM);
-            // TODO: request all facility information again
+
             if (onTrackingFacility != null) {
                 if(currentPolyline != null)
                     currentPolyline.remove();
@@ -192,20 +198,22 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
 
     @Nullable
     private LatLng getLocationFromAddress(String strAddress) {
-        Geocoder coder = new Geocoder(this);
+        Geocoder coder = new Geocoder(this, Locale.getDefault());
         List<Address> address;
         LatLng p1 = null;
-        try {
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
+        while(p1 == null) {
+            try {
+                address = coder.getFromLocationName(strAddress, 5);
+                if (address == null) {
+                    return null;
+                }
+                Address location = address.get(0);
+                location.getLatitude();
+                location.getLongitude();
+                p1 = new LatLng(location.getLatitude(), location.getLongitude());
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-            p1 = new LatLng(location.getLatitude(), location.getLongitude());
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
         return p1;
     }
@@ -217,7 +225,16 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
      * @param object an instance of LatLng/ Location/ FacilityModel
      */
     private void addMarker(Object object) {
-        if(object instanceof FacilityModel) {
+        if(object instanceof LatLng) {
+            userLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position((LatLng) object)
+                    .title("Your Location"));
+        } else if(object instanceof Location) {
+            userLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(((Location) object).getLatitude(),
+                            ((Location) object).getLongitude()))
+                    .title("Your Location"));
+        } else if(object instanceof FacilityModel) {
             Marker m = mMap.addMarker(new MarkerOptions()
                     .position(((FacilityModel) object).getLatLng())
                     .title(((FacilityModel) object).getNAME()));
