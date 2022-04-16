@@ -20,7 +20,7 @@ public class ForumDaoImpl extends SQLiteOpenHelper implements ForumDao {
     private static final String TAG = ForumDaoImpl.class.getSimpleName();
     private static final Integer VERSION = 1;
     private static final String dbname = "ForumPosts.db";
-    private int total;
+
     public ForumDaoImpl(@Nullable Context context) {
         super(context, dbname, null, VERSION);
     }
@@ -66,7 +66,6 @@ public class ForumDaoImpl extends SQLiteOpenHelper implements ForumDao {
             String post_content = cursor.getString(3);
             list.add(new PostModel(username,time,title,post_content));
             Log.d(TAG,"username: "+username+ ", time: "+ time + ", content: "+ post_content);
-            total ++;
         }
         cursor.close();
         db.close();

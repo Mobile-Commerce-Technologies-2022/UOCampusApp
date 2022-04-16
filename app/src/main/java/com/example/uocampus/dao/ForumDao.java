@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ForumDao {
 
-    public boolean addPost(PostModel post);
+    boolean addPost(PostModel post);
 
-    public List<PostModel> getPosts();
+    List<PostModel> getPosts();
 }
