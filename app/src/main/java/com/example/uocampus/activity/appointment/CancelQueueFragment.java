@@ -1,4 +1,4 @@
-package com.example.uocampus.model.Appointment_Model;
+package com.example.uocampus.activity.appointment;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,9 +16,9 @@ import android.widget.EditText;
 
 import com.example.uocampus.R;
 
-public class Q_CancelQueue extends AppCompatDialogFragment {
+public class CancelQueueFragment extends AppCompatDialogFragment {
     private EditText sid;
-    private Q_CancelQueue.DialogListener listener;
+    private CancelQueueFragment.DialogListener listener;
 
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

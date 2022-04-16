@@ -1,4 +1,4 @@
-package com.example.uocampus.forum;
+package com.example.uocampus.dao;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -10,7 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.uocampus.activity.MainActivity;
+import com.example.uocampus.model.PostModel;
 
 import java.util.List;
 
@@ -61,22 +61,22 @@ public class DBControl extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int x, int y) {
     }
 
-    public boolean addData(Submit_Post_Func sub) {
+    public boolean addData(PostModel sub) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("content", sub.getPost_content());
-        values.put("ID",sub.getHostID());
+        values.put("ID",sub.getUsername());
         values.put("title", sub.getTitle());
         values.put("time",sub.getTime());
 
         long table = db.insert("TEST_1", null, values);
         db.close();
-        Log.d(TAG,"new value inserted - ID: " + sub.getHostID() + ", time: " + sub.getTime() + ", title: "+ sub.getTitle() + ", content: " + sub.getPost_content() + ".");
+        Log.d(TAG,"new value inserted - ID: " + sub.getUsername() + ", time: " + sub.getTime() + ", title: "+ sub.getTitle() + ", content: " + sub.getPost_content() + ".");
         return table != -1;
     }
 
     @SuppressLint("Range")
-    public void getData(String dbname, List<Submit_Post_Func> sp){
+    public void getData(String dbname, List<PostModel> sp){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(dbname,null,null,null,null,null,null);
         while(cursor.moveToNext()){
@@ -84,7 +84,7 @@ public class DBControl extends SQLiteOpenHelper {
             time =  cursor.getString(cursor.getColumnIndex("time"));
             title = cursor.getString(cursor.getColumnIndex("title"));
             post_content = cursor.getString(cursor.getColumnIndex("content"));
-            sp.add(new Submit_Post_Func(id,time,title,post_content));
+            sp.add(new PostModel(id,time,title,post_content));
             Log.d(TAG,"id: "+id+ ", time: "+ time + ", content: "+ post_content);
             total ++;
         }

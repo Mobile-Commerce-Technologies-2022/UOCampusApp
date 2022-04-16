@@ -1,4 +1,4 @@
-package com.example.uocampus.model.Appointment_Model;
+package com.example.uocampus.activity.appointment;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.widget.EditText;
 
 import com.example.uocampus.R;
 
-public class Q_UserInfo_setup extends AppCompatDialogFragment {
+public class UserInfoFragment extends AppCompatDialogFragment {
     private static final String TAG = "";
     private EditText name,phone,sid;
     private DialogListener listener;
@@ -31,20 +31,14 @@ public class Q_UserInfo_setup extends AppCompatDialogFragment {
         Log.d(TAG,"Enter dialog");
         builder.setView(view)
                 .setTitle("User Info")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                            String nameTXT = name.getText().toString();
-                            String phoneTXT = phone.getText().toString();
-                            String studentTXT = sid.getText().toString();
-                            listener.applyTexts(nameTXT,phoneTXT,studentTXT);
-                    }
+                .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                        String nameTXT = name.getText().toString();
+                        String phoneTXT = phone.getText().toString();
+                        String studentTXT = sid.getText().toString();
+                        listener.applyTexts(nameTXT,phoneTXT,studentTXT);
                 });
         name = view.findViewById(R.id.Name);
         phone = view.findViewById(R.id.Phone);
@@ -59,7 +53,7 @@ public class Q_UserInfo_setup extends AppCompatDialogFragment {
         try {
             listener = (DialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()+"must implement DialogueLisenter");
+            throw new ClassCastException(context +"must implement DialogueLisenter");
         }
     }
 

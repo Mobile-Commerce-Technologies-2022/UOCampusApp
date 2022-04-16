@@ -1,4 +1,4 @@
-package com.example.uocampus.model;
+package com.example.uocampus.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -41,15 +41,9 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = DB.rawQuery("Select * from Userdetails where studentnum = ?",new String[]{studentnum});
         if (cursor.getCount() > 0){
             long result = DB.delete("Userdetails","studentnum = ?", new String[]{studentnum});
-            if (result == -1) {
-                return false;
-            }else{
-                return true;
-            }
-        }else
-        {
-            return false;
+            return result != -1;
         }
+        return false;
     }
 
 
@@ -81,12 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Boolean checkStatus(){
         Integer numcount = getProfilesCount();
-        if(numcount ==0) {
-            return true;
-        }
-        else{
-            return false;
-        }
+        return numcount ==0;
     }
 
 

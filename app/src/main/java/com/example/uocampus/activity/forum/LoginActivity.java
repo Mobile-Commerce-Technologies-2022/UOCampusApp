@@ -1,4 +1,4 @@
-package com.example.uocampus.forum;
+package com.example.uocampus.activity.forum;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +12,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.uocampus.activity.MainActivity;
 import com.example.uocampus.R;
+import com.example.uocampus.model.PostModel;
 
-public class Login_Page extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = Login_Page.class.getSimpleName();
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private Button login,logout,back;
     private EditText nickname;
-    private Submit_Post_Func sub = new Submit_Post_Func();
+    private PostModel sub = new PostModel();
     SharedPreferences sp;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +36,9 @@ public class Login_Page extends AppCompatActivity {
         back = findViewById(R.id.login_back);
         nickname = findViewById(R.id.nickname);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login_Page.this, Entry_page.class);
-                startActivity(intent);
-            }
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, EntryPageActivity.class);
+            startActivity(intent);
         });
         //创建login button  关联user的 db， 设置全局Host ID
         login.setOnClickListener((view -> {
@@ -54,10 +51,10 @@ public class Login_Page extends AppCompatActivity {
                 Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "account nickname set to " + nickname.getText().toString());
                 saveData();
-                Intent intent = new Intent(Login_Page.this, Entry_page.class);
+                Intent intent = new Intent(LoginActivity.this, EntryPageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
                 intent.putExtra("hostID", nickname.getText().toString());
-                Login_Page.this.startActivity(intent);
+                LoginActivity.this.startActivity(intent);
                 finish();
             }
         }));
@@ -67,10 +64,10 @@ public class Login_Page extends AppCompatActivity {
             Log.i(TAG,"account logged out, host ID set to null");
             Toast.makeText(this, str , Toast.LENGTH_SHORT).show();
             saveData();
-            Intent intent = new Intent(Login_Page.this, Entry_page.class);
+            Intent intent = new Intent(LoginActivity.this, EntryPageActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
             intent.putExtra("hostID", "");
-            Login_Page.this.startActivity(intent);
+            LoginActivity.this.startActivity(intent);
             finish();
         }));
 

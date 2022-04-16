@@ -1,4 +1,4 @@
-package com.example.uocampus.forum;
+package com.example.uocampus.activity.forum;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,15 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.uocampus.activity.MainActivity;
+
 import com.example.uocampus.R;
+import com.example.uocampus.model.PostModel;
+import com.example.uocampus.dao.DBControl;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Post_Page extends AppCompatActivity {
+public class PostPageActivity extends AppCompatActivity {
 
-    private static final String TAG = Post_Page.class.getSimpleName();
-    private Submit_Post_Func sub = new Submit_Post_Func();
+    private static final String TAG = PostPageActivity.class.getSimpleName();
+    private PostModel sub = new PostModel();
     private Button submit_button, back_button;
     private EditText content,title;
     private String hostID;
@@ -40,7 +43,7 @@ public class Post_Page extends AppCompatActivity {
             Log.i(TAG,"Host ID is null");
             String str = "Please login first";
             Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Login_Page.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             }
         else {
@@ -53,7 +56,7 @@ public class Post_Page extends AppCompatActivity {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(System.currentTimeMillis());
             String DateTime = simpleDateFormat.format(date);
-            sub.setHostID(hostID);
+            sub.setUsername(hostID);
             sub.setTime(DateTime);
             sub.setPost_content(content.getText().toString());
             sub.setTitle(title.getText().toString());
@@ -61,7 +64,7 @@ public class Post_Page extends AppCompatActivity {
             loader.addData(sub);
             Log.d(TAG,"Post been sent");
             String str = "Your post has been sent";
-            Intent intent = new Intent(this, Entry_page.class);
+            Intent intent = new Intent(this, EntryPageActivity.class);
             startActivity(intent);
             Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         }));
@@ -69,7 +72,7 @@ public class Post_Page extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Post_Page.this, Entry_page.class);
+                Intent intent = new Intent(PostPageActivity.this, EntryPageActivity.class);
                 startActivity(intent);
             }
         });

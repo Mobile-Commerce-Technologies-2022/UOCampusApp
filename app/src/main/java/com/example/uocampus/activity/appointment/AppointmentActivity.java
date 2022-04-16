@@ -1,4 +1,4 @@
-package com.example.uocampus.activity;
+package com.example.uocampus.activity.appointment;
 
 import static com.example.uocampus.service.AppointmentService.notification.CHANNEL_ID;
 
@@ -18,12 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uocampus.R;
-import com.example.uocampus.model.DBHelper;
-import com.example.uocampus.model.Appointment_Model.Q_CancelQueue;
-import com.example.uocampus.model.Appointment_Model.Q_UserInfo_setup;
-import com.example.uocampus.model.Appointment_Model.Q_Userlist;
+import com.example.uocampus.dao.DBHelper;
 
-public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup.DialogListener, Q_CancelQueue.DialogListener {
+public class AppointmentActivity extends AppCompatActivity implements UserInfoFragment.DialogListener, CancelQueueFragment.DialogListener {
     private static final String TAG = "" ;
     private Button queue,cancelbtn,viewbtn;
     DBHelper DB;
@@ -45,36 +42,21 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
         relative = findViewById(R.id.background);
         updatestatus();
 
-        viewbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Q_Appointment.this, Q_Userlist.class));
-            }
-        });
-        queue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialog();
-            }
-        });
+        viewbtn.setOnClickListener(view -> startActivity(new Intent(AppointmentActivity.this, UserListFragment.class)));
+        queue.setOnClickListener(view -> openDialog());
 
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openCancelDialog();
-            }
-        });
+        cancelbtn.setOnClickListener(view -> openCancelDialog());
 
 
     }
 
     private void openCancelDialog(){
-        Q_CancelQueue cancelQueue = new Q_CancelQueue();
+        CancelQueueFragment cancelQueue = new CancelQueueFragment();
         cancelQueue.show(getSupportFragmentManager(),"cancelQueue");
     }
 
     private void openDialog() {
-        Q_UserInfo_setup userInfo_setup = new Q_UserInfo_setup();
+        UserInfoFragment userInfo_setup = new UserInfoFragment();
         userInfo_setup.show(getSupportFragmentManager(),"userInfo_setup");
     }
 
@@ -84,12 +66,12 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
             Boolean checkinsertdata = DB.insertuserdata(name, phone, sid);
             Log.d(TAG, String.valueOf(DB.getProfilesCount()));
             if (checkinsertdata == true) {
-                Toast.makeText(Q_Appointment.this,"You are in Queue",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppointmentActivity.this,"You are in Queue",Toast.LENGTH_SHORT).show();
                 sendchannel();
                 Log.d(TAG, " get data");
             } else {
                 Log.d(TAG, "didnt get data");
-                Toast.makeText(Q_Appointment.this,"You are not in Queue",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppointmentActivity.this,"You are not in Queue",Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -100,9 +82,9 @@ public class Q_Appointment extends AppCompatActivity implements Q_UserInfo_setup
     public void applycancelTexts(String studentTXT) {
         Boolean deletedata = DB.deletedata(studentTXT);
         if (deletedata == true) {
-            Toast.makeText(Q_Appointment.this,"Queue deleted",Toast.LENGTH_SHORT).show();
+            Toast.makeText(AppointmentActivity.this,"Queue deleted",Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(Q_Appointment.this,"Queue not deleted",Toast.LENGTH_SHORT).show();
+            Toast.makeText(AppointmentActivity.this,"Queue not deleted",Toast.LENGTH_SHORT).show();
 
         }
         updatestatus();

@@ -1,4 +1,4 @@
-package com.example.uocampus.model.Appointment_Model;
+package com.example.uocampus.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,11 +13,11 @@ import com.example.uocampus.R;
 
 import java.util.ArrayList;
 
-public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.MyViewHolder> {
+public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.MyViewHolder> {
     private Context context;
     private ArrayList nameid, sid;
 
-    public MyAdaptor(Context context, ArrayList nameid, ArrayList sid) {
+    public AppointmentAdapter(Context context, ArrayList nameid, ArrayList sid) {
         this.context = context;
         this.nameid = nameid;
         this.sid = sid;
@@ -31,7 +31,7 @@ public class MyAdaptor extends RecyclerView.Adapter<MyAdaptor.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyAdaptor.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AppointmentAdapter.MyViewHolder holder, int position) {
         holder.nameid.setText(String.valueOf(nameid.get(position)));
         holder.sid.setText(String.valueOf(sid.get(position)));
 

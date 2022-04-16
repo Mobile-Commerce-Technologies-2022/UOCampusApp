@@ -1,33 +1,27 @@
-package com.example.uocampus.forum;
+package com.example.uocampus.activity.forum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import android.app.ListActivity;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.LabeledIntent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.net.Uri;
-import com.example.uocampus.activity.MainActivity;
+
 import com.example.uocampus.R;
+import com.example.uocampus.model.PostModel;
+import com.example.uocampus.dao.DBControl;
 
-public class Forum_Page extends ListActivity {
+public class ForumPageActivity extends ListActivity {
 
-    private static final String TAG = Forum_Page.class.getSimpleName();
+    private static final String TAG = ForumPageActivity.class.getSimpleName();
     public DBControl loader;
-    public List<Submit_Post_Func> list = new ArrayList<>();
+    public List<PostModel> list = new ArrayList<>();
     public List listitem = new ArrayList();
     private Button back;
     @Override
@@ -39,20 +33,17 @@ public class Forum_Page extends ListActivity {
         loader.getData("TEST_1",list);
 
         for(int i = 0; i < loader.getTotal(); i++){
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("ID", list.get(i).getHostID());
+            Map<String,Object> map = new HashMap<>();
+            map.put("ID", list.get(i).getUsername());
             map.put("time",list.get(i).getTime());
             map.put("title",list.get(i).getTitle());
             map.put("content",list.get(i).getPost_content());
             listitem.add(map);
         }
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Forum_Page.this, Entry_page.class);
-                startActivity(intent);
-            }
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(ForumPageActivity.this, EntryPageActivity.class);
+            startActivity(intent);
         });;
 
         SimpleAdapter adpt = new SimpleAdapter(this
@@ -61,20 +52,15 @@ public class Forum_Page extends ListActivity {
                 ,new String[]{"ID","time","title","content"}
                 ,new int[]{R.id.id,R.id.date,R.id.title,R.id.content});
 
-        ListView listView = (ListView) this.findViewById(android.R.id.list);
+        ListView listView = this.findViewById(android.R.id.list);
         listView.setAdapter(adpt);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String, Object> map = (Map<String, Object>) parent.getItemAtPosition(position);
-                Object sharable = map.get("content");
-                Log.i(TAG,"Item clicked "+ sharable);
-                String sr = (String)sharable;
-                share(sr);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Map<String, Object> map = (Map<String, Object>) parent.getItemAtPosition(position);
+            Object sharable = map.get("content");
+            Log.i(TAG,"Item clicked "+ sharable);
+            String sr = (String)sharable;
+            share(sr);
 //                onShareClick(sr);
-            }
-
         });
 
     }
