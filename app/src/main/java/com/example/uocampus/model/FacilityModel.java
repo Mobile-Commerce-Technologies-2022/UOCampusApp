@@ -1,4 +1,6 @@
 package com.example.uocampus.model;
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class FacilityModel {
@@ -38,6 +40,7 @@ public class FacilityModel {
         this.estimateTime = estimateTime;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "FacilityModel{" +

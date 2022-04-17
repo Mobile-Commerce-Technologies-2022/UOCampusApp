@@ -2,12 +2,13 @@ package com.example.uocampus.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uocampus.R;
+import com.example.uocampus.activity.appointment.AppointmentActivity;
+import com.example.uocampus.activity.forum.EntryPageActivity;
 import com.example.uocampus.singleton.UtilLoader;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,19 +22,15 @@ public class MainActivity extends AppCompatActivity {
         btnMap = (Button) findViewById(R.id.btn_map);
 
         btnForum.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, com.example.uocampus.forum.Entry_page.class);
+            Intent intent = new Intent(MainActivity.this, EntryPageActivity.class);
             startActivity(intent);
         });
 
         btnMap.setOnClickListener((view) -> UtilLoader.getInstance().go2Activity(this, NavigatorActivity.class));
 
-        btnAppointment.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Q_Appointment.class);
-                startActivity(intent);
-            }
+        btnAppointment.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AppointmentActivity.class);
+            startActivity(intent);
         });
     }
 

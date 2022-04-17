@@ -23,22 +23,22 @@
             android:name=".activity.NavigatorActivity"
             android:exported="false" />
         <activity
-            android:name=".model.Appointment_Model.Q_Userlist"
+            android:name=".activity.appointment.UserListFragment"
             android:exported="false" />
         <activity
-            android:name=".forum.Forum_Page"
+            android:name=".activity.forum.ForumPageActivity"
             android:exported="false" />
         <activity
-            android:name=".forum.Entry_page"
+            android:name=".activity.forum.EntryPageActivity"
             android:exported="false" />
         <activity
-            android:name=".forum.Post_Page"
+            android:name=".activity.forum.PostPageActivity"
             android:exported="false" />
         <activity
-            android:name=".forum.Login_Page"
+            android:name=".activity.forum.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.Q_Appointment"
+            android:name=".activity.appointment.AppointmentActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"

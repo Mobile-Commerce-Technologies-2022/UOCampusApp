@@ -1,26 +1,22 @@
-package com.example.uocampus.forum;
+package com.example.uocampus.activity.forum;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.uocampus.activity.MainActivity;
 import com.example.uocampus.R;
 
-public class Login_Page extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = Login_Page.class.getSimpleName();
-    private Button login,logout,back;
-    private EditText nickname;
-    private Submit_Post_Func sub = new Submit_Post_Func();
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    private String username;
     SharedPreferences sp;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,33 +27,30 @@ public class Login_Page extends AppCompatActivity {
 
     }
     private void init(){
-        login = findViewById(R.id.login_btn);
-        logout = findViewById(R.id.logout_btn);
-        back = findViewById(R.id.login_back);
-        nickname = findViewById(R.id.nickname);
+        Button login = findViewById(R.id.login_btn);
+        Button logout = findViewById(R.id.logout_btn);
+        Button back = findViewById(R.id.login_back);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login_Page.this, Entry_page.class);
-                startActivity(intent);
-            }
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, EntryPageActivity.class);
+            startActivity(intent);
         });
         //创建login button  关联user的 db， 设置全局Host ID
         login.setOnClickListener((view -> {
-            if(nickname.getText().toString().isEmpty()){
+            username = ((EditText)findViewById(R.id.nickname)).getText().toString();
+            if(username.isEmpty()){
                 String str = "Please enter a valid nick name";
                 Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "nick name is null");
             }else {
-                String str = "Your nickname is: " + nickname.getText().toString();
+                String str = "Your nickname is: " + username;
                 Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "account nickname set to " + nickname.getText().toString());
+                Log.d(TAG, "account nickname set to " + username);
                 saveData();
-                Intent intent = new Intent(Login_Page.this, Entry_page.class);
+                Intent intent = new Intent(LoginActivity.this, EntryPageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-                intent.putExtra("hostID", nickname.getText().toString());
-                Login_Page.this.startActivity(intent);
+                intent.putExtra("username", username);
+                LoginActivity.this.startActivity(intent);
                 finish();
             }
         }));
@@ -67,17 +60,17 @@ public class Login_Page extends AppCompatActivity {
             Log.i(TAG,"account logged out, host ID set to null");
             Toast.makeText(this, str , Toast.LENGTH_SHORT).show();
             saveData();
-            Intent intent = new Intent(Login_Page.this, Entry_page.class);
+            Intent intent = new Intent(LoginActivity.this, EntryPageActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-            intent.putExtra("hostID", "");
-            Login_Page.this.startActivity(intent);
+            intent.putExtra("username", "");
+            LoginActivity.this.startActivity(intent);
             finish();
         }));
 
     }
     public void saveData(){
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("hostID",nickname.getText().toString());
-        editor.commit();
+        editor.putString("username", username);
+        editor.apply();
     }
 }

@@ -287,6 +287,7 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
 
     @Override
     public void onDirectionClick(int position, boolean drawPolyline) {
+        Log.e(TAG, "onClick "+(position));
         FacilityModel facilityModel = mFacilityList.get(position);
         this.onTrackingFacility = facilityModel;
         if(facilityModelMarkerMap.get(facilityModel) == null) {
