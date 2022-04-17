@@ -18,26 +18,24 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.uocampus.R;
 import com.example.uocampus.dao.AppointmentDao;
-import com.example.uocampus.dao.DBHelper;
 import com.example.uocampus.dao.impl.AppointmentDaoImpl;
 import com.example.uocampus.model.StudentModel;
 
 public class AppointmentActivity extends AppCompatActivity implements UserInfoFragment.DialogListener,
                                                                 CancelQueueFragment.DialogListener {
     private static final String TAG = AppointmentActivity.class.getSimpleName();
-    private Button btnAdd2Queue, btnCancelQueue, btnViewQueue;
     private TextView time, line;
     private NotificationManagerCompat notificationManager;
     private RelativeLayout relative;
-    private AppointmentDao appointmentDao = new AppointmentDaoImpl(AppointmentActivity.this);
+    private final AppointmentDao appointmentDao = new AppointmentDaoImpl(AppointmentActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
         notificationManager = NotificationManagerCompat.from(this);
-        btnAdd2Queue = findViewById(R.id.queue);
-        btnViewQueue = findViewById(R.id.view);
-        btnCancelQueue = findViewById(R.id.cancelQ);
+        Button btnAdd2Queue = findViewById(R.id.queue);
+        Button btnViewQueue = findViewById(R.id.view);
+        Button btnCancelQueue = findViewById(R.id.cancelQ);
         time = findViewById(R.id.wait_text);
         line = findViewById(R.id.line_text);
         relative = findViewById(R.id.background);
@@ -82,7 +80,7 @@ public class AppointmentActivity extends AppCompatActivity implements UserInfoFr
 
     @Override
     public void cancelAppointment(String studentNum) {
-        Boolean isDeleted = appointmentDao.removeAppointment(studentNum);
+        boolean isDeleted = appointmentDao.removeAppointment(studentNum);
         if (isDeleted) {
             Toast.makeText(AppointmentActivity.this,"Queue deleted",Toast.LENGTH_SHORT).show();
         } else {
@@ -95,7 +93,7 @@ public class AppointmentActivity extends AppCompatActivity implements UserInfoFr
     public void updateStatus(){
         int count = appointmentDao.count();
         line.setText(String.format("%s", count));
-        time.setText(String.format("%s mins", appointmentDao.getWaitingTime()));
+        time.setText(String.format("%s minutes", appointmentDao.getWaitingTime()));
 
         //context awareness by changing color
         if (count > 3 && count < 6){
@@ -109,7 +107,7 @@ public class AppointmentActivity extends AppCompatActivity implements UserInfoFr
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_line)
                 .setContentTitle("You are in Queue")
-                .setContentText("Your approximate wait time is " + appointmentDao.getWaitingTime() + " mins")
+                .setContentText("Your approximate wait time is " + appointmentDao.getWaitingTime() + " minutes")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .build();
 

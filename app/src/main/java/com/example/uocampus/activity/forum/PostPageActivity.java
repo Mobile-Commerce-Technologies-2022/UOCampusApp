@@ -26,7 +26,7 @@ public class PostPageActivity extends AppCompatActivity {
     private Button submit_button, back_button;
     private EditText content,title;
     private String username;
-    private ForumDao forumDao = new ForumDaoImpl(PostPageActivity.this);
+    private final ForumDao forumDao = new ForumDaoImpl(PostPageActivity.this);
     SharedPreferences sp;
 
     @Override

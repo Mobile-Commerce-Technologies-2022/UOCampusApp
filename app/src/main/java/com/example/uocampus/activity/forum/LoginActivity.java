@@ -16,7 +16,6 @@ import com.example.uocampus.R;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private Button login,logout,back;
     private String username;
     SharedPreferences sp;
 
@@ -28,9 +27,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     private void init(){
-        login = findViewById(R.id.login_btn);
-        logout = findViewById(R.id.logout_btn);
-        back = findViewById(R.id.login_back);
+        Button login = findViewById(R.id.login_btn);
+        Button logout = findViewById(R.id.logout_btn);
+        Button back = findViewById(R.id.login_back);
 
         back.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, EntryPageActivity.class);

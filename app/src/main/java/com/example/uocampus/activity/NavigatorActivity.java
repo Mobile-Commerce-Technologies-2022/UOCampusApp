@@ -122,7 +122,6 @@ public class NavigatorActivity extends AppCompatActivity implements LocationList
         userLocation = location;
         if(mMap != null) {
             mMap.setMinZoomPreference(DEFAULT_ZOOM);
-            // TODO: request all facility information again
             if (onTrackingFacility != null) {
                 if(currentPolyline != null)
                     currentPolyline.remove();

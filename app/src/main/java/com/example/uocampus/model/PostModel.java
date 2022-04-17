@@ -1,5 +1,7 @@
 package com.example.uocampus.model;
 
+import androidx.annotation.NonNull;
+
 public class PostModel {
     private String Time;
     private String username;
@@ -33,6 +35,7 @@ public class PostModel {
     }
     public void setTitle(String title){this.title = title;}
 
+    @NonNull
     @Override
     public String toString() {
         return "PostModel{" +

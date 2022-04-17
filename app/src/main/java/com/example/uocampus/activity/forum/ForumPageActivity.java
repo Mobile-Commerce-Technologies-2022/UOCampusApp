@@ -24,13 +24,12 @@ public class ForumPageActivity extends ListActivity {
     private static final String TAG = ForumPageActivity.class.getSimpleName();
     public List<PostModel> postList;
     public List<Map<String, String>> itemList;
-    private Button btnBack;
-    private ForumDao forumDao = new ForumDaoImpl(ForumPageActivity.this);
+    private final ForumDao forumDao = new ForumDaoImpl(ForumPageActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_list);
-        btnBack = findViewById(R.id.list_back);
+        Button btnBack = findViewById(R.id.list_back);
 
         postList = forumDao.getPosts();
         itemList = new ArrayList<>();
