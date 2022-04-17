@@ -2,51 +2,52 @@ package com.example.uocampus.activity.appointment;
 
 import static com.example.uocampus.service.AppointmentService.notification.CHANNEL_ID;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.uocampus.R;
-import com.example.uocampus.dao.DBHelper;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
-public class AppointmentActivity extends AppCompatActivity implements UserInfoFragment.DialogListener, CancelQueueFragment.DialogListener {
-    private static final String TAG = "" ;
-    private Button queue,cancelbtn,viewbtn;
-    DBHelper DB;
+import com.example.uocampus.R;
+import com.example.uocampus.dao.AppointmentDao;
+import com.example.uocampus.dao.DBHelper;
+import com.example.uocampus.dao.impl.AppointmentDaoImpl;
+import com.example.uocampus.model.StudentModel;
+
+public class AppointmentActivity extends AppCompatActivity implements UserInfoFragment.DialogListener,
+                                                                CancelQueueFragment.DialogListener {
+    private static final String TAG = AppointmentActivity.class.getSimpleName();
+    private Button btnAdd2Queue, btnCancelQueue, btnViewQueue;
     private TextView time, line;
     private NotificationManagerCompat notificationManager;
     private RelativeLayout relative;
-
+    private AppointmentDao appointmentDao = new AppointmentDaoImpl(AppointmentActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
-        DB = new DBHelper(this);
         notificationManager = NotificationManagerCompat.from(this);
-          queue = findViewById(R.id.queue);
-        viewbtn = findViewById(R.id.view);
-        cancelbtn = findViewById(R.id.cancelQ);
+        btnAdd2Queue = findViewById(R.id.queue);
+        btnViewQueue = findViewById(R.id.view);
+        btnCancelQueue = findViewById(R.id.cancelQ);
         time = findViewById(R.id.wait_text);
         line = findViewById(R.id.line_text);
         relative = findViewById(R.id.background);
-        updatestatus();
+        updateStatus();
 
-        viewbtn.setOnClickListener(view -> startActivity(new Intent(AppointmentActivity.this, UserListFragment.class)));
-        queue.setOnClickListener(view -> openDialog());
+        btnViewQueue.setOnClickListener(view -> startActivity(new Intent(AppointmentActivity.this,
+                                                                                UserListFragment.class)));
+        btnAdd2Queue.setOnClickListener(view -> openDialog());
 
-        cancelbtn.setOnClickListener(view -> openCancelDialog());
-
+        btnCancelQueue.setOnClickListener(view -> openCancelDialog());
 
     }
 
@@ -61,53 +62,54 @@ public class AppointmentActivity extends AppCompatActivity implements UserInfoFr
     }
 
     @Override
-    public void applyTexts(String name, String phone, String sid) {
-        if(name!=null&phone!=null&sid!=null) {
-            Boolean checkinsertdata = DB.insertuserdata(name, phone, sid);
-            Log.d(TAG, String.valueOf(DB.getProfilesCount()));
-            if (checkinsertdata == true) {
-                Toast.makeText(AppointmentActivity.this,"You are in Queue",Toast.LENGTH_SHORT).show();
-                sendchannel();
+    public void addAppointment(String name, String phone, String sid) {
+        if(!name.isEmpty() && !phone.isEmpty() && !sid.isEmpty()) {
+            boolean isInserted = appointmentDao.insertAppointment(new StudentModel(name, sid, phone));
+            Log.d(TAG, String.valueOf(appointmentDao.count()));
+            if (isInserted) {
+                Toast.makeText(AppointmentActivity.this,"You are in Queue",
+                                                            Toast.LENGTH_SHORT).show();
+                sendChannel();
                 Log.d(TAG, " get data");
             } else {
-                Log.d(TAG, "didnt get data");
-                Toast.makeText(AppointmentActivity.this,"You are not in Queue",Toast.LENGTH_SHORT).show();
-
+                Log.d(TAG, "didn't get data");
+                Toast.makeText(AppointmentActivity.this,"You are not in Queue",
+                                                                Toast.LENGTH_SHORT).show();
             }
         }
-        updatestatus();
+        updateStatus();
     }
 
     @Override
-    public void applycancelTexts(String studentTXT) {
-        Boolean deletedata = DB.deletedata(studentTXT);
-        if (deletedata == true) {
+    public void cancelAppointment(String studentNum) {
+        Boolean isDeleted = appointmentDao.removeAppointment(studentNum);
+        if (isDeleted) {
             Toast.makeText(AppointmentActivity.this,"Queue deleted",Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(AppointmentActivity.this,"Queue not deleted",Toast.LENGTH_SHORT).show();
-
         }
-        updatestatus();
+        updateStatus();
     }
 
     @SuppressLint("ResourceAsColor")
-    public void updatestatus(){
-        line.setText((DB.getProfilesCount()).toString());
-        time.setText((DB.getapproxtime()).toString() + " mins");
+    public void updateStatus(){
+        int count = appointmentDao.count();
+        line.setText(String.format("%s", count));
+        time.setText(String.format("%s mins", appointmentDao.getWaitingTime()));
 
-        //context awareness by chaning color
-        if (DB.getProfilesCount() > 3){
+        //context awareness by changing color
+        if (count > 3 && count < 6){
             relative.setBackgroundColor(R.color.grey);
-        }else if(DB.getProfilesCount() > 5){
+        } else if(count >= 6){
             relative.setBackgroundColor(R.color.pink);
         }
     }
 
-    public void sendchannel(){
+    public void sendChannel(){
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_line)
                 .setContentTitle("You are in Queue")
-                .setContentText("Your approximate wait time is " + (DB.getapproxtime()).toString() + " mins")
+                .setContentText("Your approximate wait time is " + appointmentDao.getWaitingTime() + " mins")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .build();
 

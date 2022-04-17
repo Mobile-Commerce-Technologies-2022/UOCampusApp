@@ -2,7 +2,6 @@ package com.example.uocampus.activity.appointment;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,18 +25,12 @@ public class CancelQueueFragment extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.fragment_cancelqueue, null);
         builder.setView(view)
                 .setTitle("Cancel User Info")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String studentTXT = sid.getText().toString();
-                        listener.applycancelTexts(studentTXT);
-                    }
+                .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                    String studentNum = sid.getText().toString();
+                    listener.cancelAppointment(studentNum);
                 });
         sid = view.findViewById(R.id.cancelsid);
         return builder.create();
@@ -54,6 +47,6 @@ public class CancelQueueFragment extends AppCompatDialogFragment {
     }
 
     public interface DialogListener {
-        void applycancelTexts(String studentTXT);
+        void cancelAppointment(String studentTXT);
     }
 }

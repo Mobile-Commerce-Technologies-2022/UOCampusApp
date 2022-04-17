@@ -10,17 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uocampus.R;
+import com.example.uocampus.model.StudentModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList nameid, sid;
+    private List<StudentModel> studentModelList;
 
-    public AppointmentAdapter(Context context, ArrayList nameid, ArrayList sid) {
+    public AppointmentAdapter(Context context, List<StudentModel> studentModelList) {
         this.context = context;
-        this.nameid = nameid;
-        this.sid = sid;
+        this.studentModelList = studentModelList;
     }
 
     @NonNull
@@ -32,14 +33,14 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AppointmentAdapter.MyViewHolder holder, int position) {
-        holder.nameid.setText(String.valueOf(nameid.get(position)));
-        holder.sid.setText(String.valueOf(sid.get(position)));
+        holder.nameid.setText(String.valueOf(studentModelList.get(position).getUsername()));
+        holder.sid.setText(String.valueOf(studentModelList.get(position).getStudentNum()));
 
     }
 
     @Override
     public int getItemCount() {
-        return nameid.size();
+        return studentModelList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

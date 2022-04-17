@@ -2,7 +2,6 @@ package com.example.uocampus.activity.appointment;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,7 +37,7 @@ public class UserInfoFragment extends AppCompatDialogFragment {
                         String nameTXT = name.getText().toString();
                         String phoneTXT = phone.getText().toString();
                         String studentTXT = sid.getText().toString();
-                        listener.applyTexts(nameTXT,phoneTXT,studentTXT);
+                        listener.addAppointment(nameTXT,phoneTXT,studentTXT);
                 });
         name = view.findViewById(R.id.Name);
         phone = view.findViewById(R.id.Phone);
@@ -58,7 +57,6 @@ public class UserInfoFragment extends AppCompatDialogFragment {
     }
 
     public interface DialogListener{
-            void applyTexts(String name,String phone, String sid);
-
+            void addAppointment(String name, String phone, String sid);
     }
 }
