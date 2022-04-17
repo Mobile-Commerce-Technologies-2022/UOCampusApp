@@ -1,8 +1,7 @@
-package com.example.uocampus.model.Appointment_Model;
+package com.example.uocampus.activity.appointment;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,9 @@ import android.widget.EditText;
 
 import com.example.uocampus.R;
 
-public class Q_CancelQueue extends AppCompatDialogFragment {
+public class CancelQueueFragment extends AppCompatDialogFragment {
     private EditText sid;
-    private Q_CancelQueue.DialogListener listener;
+    private CancelQueueFragment.DialogListener listener;
 
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -26,18 +25,12 @@ public class Q_CancelQueue extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.fragment_cancelqueue, null);
         builder.setView(view)
                 .setTitle("Cancel User Info")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String studentTXT = sid.getText().toString();
-                        listener.applycancelTexts(studentTXT);
-                    }
+                .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                    String studentNum = sid.getText().toString();
+                    listener.cancelAppointment(studentNum);
                 });
         sid = view.findViewById(R.id.cancelsid);
         return builder.create();
@@ -54,6 +47,6 @@ public class Q_CancelQueue extends AppCompatDialogFragment {
     }
 
     public interface DialogListener {
-        void applycancelTexts(String studentTXT);
+        void cancelAppointment(String studentTXT);
     }
 }

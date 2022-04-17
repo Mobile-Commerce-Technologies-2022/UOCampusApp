@@ -1,27 +1,32 @@
-package com.example.uocampus.forum;
+package com.example.uocampus.activity.forum;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.uocampus.activity.MainActivity;
+
 import com.example.uocampus.R;
+import com.example.uocampus.dao.ForumDao;
+import com.example.uocampus.dao.impl.ForumDaoImpl;
+import com.example.uocampus.model.PostModel;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Post_Page extends AppCompatActivity {
+public class PostPageActivity extends AppCompatActivity {
 
-    private static final String TAG = Post_Page.class.getSimpleName();
-    private Submit_Post_Func sub = new Submit_Post_Func();
+    private static final String TAG = PostPageActivity.class.getSimpleName();
     private Button submit_button, back_button;
     private EditText content,title;
-    private String hostID;
+    private String username;
+    private ForumDao forumDao = new ForumDaoImpl(PostPageActivity.this);
     SharedPreferences sp;
 
     @Override
@@ -32,46 +37,43 @@ public class Post_Page extends AppCompatActivity {
         content = findViewById(R.id.content_et);
         back_button = findViewById(R.id.back_btn);
         title = findViewById(R.id.post_title);
-        hostID = getIntent().getStringExtra("hostID");
+        username = getIntent().getStringExtra("username");
         sp = getApplication().getSharedPreferences("saved_ID", Context.MODE_PRIVATE);
-        hostID = sp.getString("hostID","");
-        Log.i(TAG,"Host ID is: " + hostID);
-        if (hostID.isEmpty()){
-            Log.i(TAG,"Host ID is null");
+        username = sp.getString("username","");
+        Log.i(TAG,"Host ID is: " + username);
+        if (username.isEmpty()){
+            Log.i(TAG,"username is null");
             String str = "Please login first";
             Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Login_Page.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-            }
-        else {
-            buttonFunc();
+        } else {
+            initButtonListeners();
         }
     }
 
-    public void buttonFunc(){
+    @SuppressLint("SimpleDateFormat")
+    public void initButtonListeners(){
         submit_button.setOnClickListener((view -> {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(System.currentTimeMillis());
-            String DateTime = simpleDateFormat.format(date);
-            sub.setHostID(hostID);
-            sub.setTime(DateTime);
-            sub.setPost_content(content.getText().toString());
-            sub.setTitle(title.getText().toString());
-            DBControl loader = new DBControl(this, "TEST_1");
-            loader.addData(sub);
+            String dateTime = simpleDateFormat.format(date);
+            PostModel post = new PostModel(username,
+                                            dateTime,
+                                            title.getText().toString(),
+                                            content.getText().toString());
+            forumDao.addPost(post);
+
             Log.d(TAG,"Post been sent");
             String str = "Your post has been sent";
-            Intent intent = new Intent(this, Entry_page.class);
+            Intent intent = new Intent(this, EntryPageActivity.class);
             startActivity(intent);
             Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
         }));
 
-        back_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Post_Page.this, Entry_page.class);
-                startActivity(intent);
-            }
+        back_button.setOnClickListener(v -> {
+            Intent intent = new Intent(PostPageActivity.this, EntryPageActivity.class);
+            startActivity(intent);
         });
     }
 
